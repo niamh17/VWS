@@ -1,0 +1,139 @@
+.aboutTeaser {
+  width:100%;
+  display:flex;
+  justify-content:center;
+  position:relative;
+  padding:0 40px; /* outer like heroOuter */
+  border-bottom:1px dotted var(--color-border);
+  background:var(--color-bg);
+  box-sizing:border-box;
+}
+
+.inner { 
+  position:relative;
+  width:100%;
+  max-width:1120px; /* match heroRoot */
+  margin:0 auto;
+  padding:3.75rem 56px 3.25rem; /* reduced vertical padding */
+  display:flex;
+  flex-direction:row;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:72px;
+  border-left:1px dotted var(--color-border);
+  border-right:1px dotted var(--color-border);
+  box-sizing:border-box;
+}
+
+.headingRows { 
+  display:flex; 
+  flex-direction:column; 
+  gap:0.65rem; 
+  flex:1;
+}
+
+.titleLine {
+  /* Two sizes smaller (was clamp(2rem,4vw,3.6rem)) */
+  --fs: clamp(1.6rem,3.2vw,3rem);
+  font-size: var(--fs);
+  line-height:.92;
+  font-weight:600;
+  letter-spacing:-0.018em;
+  color:var(--color-text);
+  margin:0;
+  text-transform:uppercase;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;
+}
+
+/* Single 3-line variant */
+.titleBlock {
+  --fs: clamp(1.6rem,3.2vw,3rem);
+  font-size:var(--fs);
+  line-height:.92;
+  font-weight:600;
+  letter-spacing:-0.018em;
+  color:var(--color-text);
+  margin:0;
+  text-transform:uppercase;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;
+}
+@media (max-width: 800px){
+  .titleBlock { font-size:clamp(1.4rem,7vw,2.4rem); line-height:.96; }
+}
+
+.mediaWrap { 
+  display:flex; 
+  align-items:center; 
+  gap:2.25rem;
+  align-self:flex-start;
+  flex:0 0 auto;
+}
+
+.imageGrid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  grid-template-rows:repeat(2,1fr);
+  width:190px;
+  height:190px;
+  background:transparent;
+  position:relative;
+}
+
+.imageCell { position:relative; width:100%; height:100%; overflow:hidden; background:#f4f4f4; }
+.imageCell:nth-child(1){
+  border:1px solid var(--color-border);
+  border-right:none;
+  border-bottom:none;
+  border-top-left-radius:var(--radius-lg);
+}
+.imageCell:nth-child(2){
+  border:1px solid var(--color-border);
+  border-left:none;
+  border-bottom:none;
+  border-top-right-radius:var(--radius-lg);
+}
+.imageCell:nth-child(3){
+  filter:brightness(.85) contrast(1.05);
+  border:1px solid var(--color-border);
+  border-right:none;
+  border-top:none;
+  border-bottom-left-radius:var(--radius-lg);
+}
+.imageCell:nth-child(4){
+  background:transparent;
+  /* no border so the empty quadrant has no visible outline */
+}
+.imageCell img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+.circleBadge { width:170px; height:170px; position:relative; color:var(--color-text); border:1px dotted var(--color-border); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; overflow:hidden; }
+.rotator { width:100%; height:100%; animation: about-spin 18s linear infinite reverse; will-change:transform; display:flex; align-items:center; justify-content:center; }
+.rotatorSvg { width:100%; height:100%; transform-origin:50% 50%; }
+.circleBadge:hover .rotator { animation-duration:9s; }
+.circleBadge:active .rotator { animation-duration:4.5s; }
+.circleText { font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif; font-size:8.2px; letter-spacing:.18em; fill:var(--color-text); font-weight:500; text-transform:uppercase; }
+.arrowIcons { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+.arrowBase { width:40px; height:40px; color:var(--color-text); opacity:.9; }
+.arrowAccent { width:40px; height:40px; color:var(--color-accent); position:absolute; filter:drop-shadow(0 2px 6px rgba(110,60,255,0.4)); }
+
+/* removed older arrowIcons styling (replaced above) */
+
+@media (min-width: 1100px){
+  .inner { padding-top:5rem; padding-bottom:4.25rem; }
+}
+
+@media (max-width: 1080px){
+  .inner { flex-direction:column; border-left:none; border-right:none; gap:48px; padding:56px 32px 64px; }
+  .mediaWrap { align-self:flex-start; }
+}
+@media (max-width: 800px){
+  .mediaWrap { gap:1.25rem; }
+  .imageGrid { width:140px; height:140px; }
+  .circleBadge { width:140px; height:140px; }
+  .titleLine { font-size:clamp(1.4rem,7vw,2.4rem); line-height:.96; }
+}
+
+@keyframes about-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce){
+  .circleBadge svg { animation: none; }
+}

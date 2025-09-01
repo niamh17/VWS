@@ -1,0 +1,17 @@
+.menuRoot { position:absolute; top:16px; right:24px; display:flex; align-items:center; gap:16px; pointer-events:none; z-index:40; }
+.logoBubble { pointer-events:auto; background:#fff; border-radius:999px; min-height:48px; padding:0 28px; display:inline-flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,0.12); font-weight:600; font-size:15px; }
+.menuButton { pointer-events:auto; width:52px; height:52px; background:#fff; border:0; cursor:pointer; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; box-shadow:0 4px 16px rgba(0,0,0,0.12); position:relative; transition:background .35s ease, transform .4s cubic-bezier(.65,.05,.36,1); }
+.menuButton:hover { background:#f5f5f5; }
+.menuButton:active { transform:scale(.92); }
+.line { width:26px; height:2.5px; background:var(--menu-color,#111); border-radius:2px; transition:transform .45s cubic-bezier(.65,.05,.36,1), opacity .3s ease; transform-origin:center; }
+.menuOpen .lineTop { transform:translateY(8px) rotate(45deg); }
+.menuOpen .lineMid { opacity:0; transform:scaleX(.4); }
+.menuOpen .lineBot { transform:translateY(-8px) rotate(-45deg); }
+.overlay { position:absolute; inset:0; display:none; align-items:center; justify-content:center; pointer-events:none; z-index:39; }
+.overlayActive { display:flex; }
+.pillsList { list-style:none; margin:0; padding:0 40px; max-width:1400px; width:100%; display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+.pillCol { flex:0 0 calc(100%/3); display:flex; justify-content:center; }
+@media (max-width:900px){ .pillCol { flex:0 0 100%; } }
+.pillLink { --rot:0deg; position:relative; background:#fff; color:#111; text-decoration:none; border-radius:1000px; min-height:160px; padding:3.2rem 0; font-size:clamp(1.6rem,4vw,4rem); font-weight:400; display:flex; align-items:center; justify-content:center; width:100%; box-shadow:0 4px 14px rgba(0,0,0,0.1); will-change:transform; transition:background .4s ease, color .4s ease, transform .55s cubic-bezier(.65,.05,.36,1); transform:rotate(var(--rot)); }
+@media (hover:hover){ .pillLink:hover { transform:rotate(var(--rot)) scale(1.06); } .pillLink:active { transform:rotate(var(--rot)) scale(.94); } }
+@media (max-width:900px){ .pillsList { padding-top:120px; } .pillLink { transform:none; font-size:clamp(1.8rem,6vw,3.4rem); min-height:96px; padding:2.2rem 0; } .pillLink:hover { transform:scale(1.06); } .pillLink:active { transform:scale(.94); } }

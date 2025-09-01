@@ -1,0 +1,116 @@
+/* StatsSection.module.css */
+/* Layout wrapper mirrors AboutTeaser spacing to keep rhythm */
+.statsSection { width:100%; display:flex; justify-content:center; background:var(--color-bg); padding:0 40px; box-sizing:border-box; }
+.inner { width:100%; max-width:1120px; margin:0 auto; padding:4.5rem 56px 4rem; display:grid; grid-template-columns:repeat(12,1fr); gap:48px 56px; border-left:1px dotted var(--color-border); border-right:1px dotted var(--color-border); box-sizing:border-box; }
+
+/* Headline block occupies first 7 columns on large screens */
+.headlineCol { grid-column:1 / span 7; display:flex; flex-direction:column; gap:2.25rem; }
+/* Adopt services-style header */
+.header { display:flex; flex-direction:column; gap:20px; max-width:560px; }
+.tagWrapper { display:flex; }
+.tag { border:1px solid var(--color-border); border-radius:999px; padding:7px 18px 8px; background:#fff; display:inline-flex; align-items:center; }
+.tagText { margin:0; font-size:12px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--color-accent); }
+.textContainer { display:flex; flex-direction:column; gap:6px; }
+.subtitle { margin:0; font-size:44px; font-weight:600; line-height:1.02; background:linear-gradient(#9b9b9b,#7a7a7a); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.title { margin:0; font-size:44px; font-weight:600; line-height:1.02; color:var(--color-text); }
+/* Remove old kicker/titleLines usage */
+.headlineAside { grid-column:8 / span 5; font-size:1.05rem; line-height:1.45; color:var(--color-muted); align-self:flex-end; }
+
+/* Cards grid below heading */
+/* Cards layout: 3 columns (partners+roi column, revenue column spanning rows, dark rating column) */
+.cardsGrid { grid-column:1 / span 12; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-auto-rows:1fr; gap:32px 40px; align-items:stretch; }
+
+/* Shared card styles */
+.card { position:relative; border:1px solid var(--color-border); border-radius:28px; padding:1.5rem 1.65rem 1.75rem; background:#fff; display:flex; flex-direction:column; gap:1.1rem; box-shadow:var(--shadow-card); min-height:0; }
+.card.dark { background:#161616; color:#f5f5f5; border-color:#161616; box-shadow:0 18px 60px -20px rgba(0,0,0,.55), 0 2px 4px -1px rgba(0,0,0,.4); }
+
+/* Placement: keep same proportions as screenshot */
+/* Placement using 3-col grid */
+/* Grid spans: 3 equal row tracks. Smaller cards span 1, larger span 2 or 3. */
+.partnersCard { grid-column:1; grid-row:1 / span 1; flex-direction:row; align-items:center; justify-content:center; overflow:hidden; }
+.partnersAnim { position:relative; display:flex; align-items:center; justify-content:center; height:80px; width:100%; max-width:300px; }
+.roiCard { grid-column:1; grid-row:2 / span 2; justify-content:center; text-align:center; }
+.revenueCard { grid-column:2; grid-row:1 / span 2; display:flex; justify-content:space-between; }
+.availabilityCard { grid-column:2; grid-row:3 / span 1; padding:.95rem 1.35rem; display:flex; align-items:center; justify-content:center; gap:.75rem; font-size:.7rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-align:center; }
+.ratingCard { grid-column:3; grid-row:1 / span 3; display:flex; justify-content:flex-start; padding:2rem 2.1rem 2.4rem; overflow:hidden; }
+
+/* Partner avatars */
+.avatars { display:flex; align-items:center; gap:.45rem; }
+.avatarRing { position:relative; width:44px; height:44px; border-radius:50%; overflow:hidden; box-shadow:var(--shadow-card); background:#f2f2f2; border:2px solid #fff; will-change:transform, border-radius; }
+.avatarRing:not(:first-child){ margin-left:-18px; }
+
+/* Smooth, slower pulses: avatars rest smaller, expand to full, long dwell then ease back. Staggered offsets so only 1–2 animate at once. */
+.partnersCard .avatarRing { --amp:.28; --tx:0px; animation:avatarPulse 11s ease-in-out infinite; transform:translateX(var(--tx)) scale(calc(1 - var(--amp))); }
+.partnersCard .avatarRing:nth-child(1){ --tx:-4px; animation-delay:0s; z-index:5; }
+.partnersCard .avatarRing:nth-child(2){ --tx:-2px; animation-delay:-3s; z-index:4; }
+.partnersCard .avatarRing:nth-child(3){ --tx:0px;  animation-delay:-6.2s; z-index:3; }
+.partnersCard .avatarRing:nth-child(4){ --tx:2px;  animation-delay:-8.7s; z-index:2; }
+.partnersCard .avatarRing:nth-child(5){ --tx:4px;  animation-delay:-10.4s; z-index:1; }
+
+@keyframes avatarPulse {
+  0%   { transform:translateX(var(--tx)) scale(calc(1 - var(--amp))); }
+  18%  { transform:translateX(var(--tx)) scale(1); }
+  32%  { transform:translateX(var(--tx)) scale(1); }
+  55%  { transform:translateX(var(--tx)) scale(calc(1 - var(--amp))); }
+  100% { transform:translateX(var(--tx)) scale(calc(1 - var(--amp))); }
+}
+.partnersLabel { margin-left:auto; font-size:.73rem; text-transform:uppercase; letter-spacing:.14em; color:var(--color-muted); font-weight:600; }
+
+/* Stats typography */
+.statKicker { font-size:.9rem; font-weight:500; line-height:1.4; color:var(--color-text); }
+.statValue { display:flex; align-items:flex-end; justify-content:center; gap:.25rem; font-size:clamp(2.6rem,4.5vw,3.9rem); font-weight:600; line-height:1; letter-spacing:-0.03em; color:var(--color-text); }
+.statValue small { font-size:2.2rem; line-height:1; font-weight:500; color:var(--color-muted); }
+.statMeta { font-size:.8rem; font-weight:500; color:var(--color-muted); text-align:center; }
+
+/* Tag for availability */
+/* Availability pill (separate card aligns under revenue stat column) */
+.availabilityCard .availabilityDot { width:.65rem; height:.65rem; border-radius:50%; background:var(--color-tag-green); box-shadow:0 0 0 4px rgba(51,212,120,.25); flex-shrink:0; animation:pulseDot 1.8s ease-in-out infinite; }
+.availabilityCard span:last-child { color:var(--color-muted); }
+
+/* Dark rating card specific */
+.ratingBody { display:flex; flex-direction:column; gap:2.2rem; position:relative; z-index:2; }
+.ratingText { font-size:1.05rem; line-height:1.48; color:#dedede; max-width:24ch; }
+.ratingStat { display:flex; align-items:flex-end; gap:.25rem; font-size:clamp(3.4rem,5.6vw,4.8rem); font-weight:600; letter-spacing:-0.04em; color:#f5f5f5; }
+.ratingStat small { font-size:2.4rem; font-weight:500; color:#bdbdbd; }
+.starsRow { display:flex; gap:.35rem; margin-top:.5rem; }
+.star { width:18px; height:18px; color:var(--color-rating); }
+.ratingMeta { font-size:.66rem; text-transform:uppercase; letter-spacing:.15em; font-weight:600; color:#dedede; margin-top:.55rem; }
+.trendIconBox { width:54px; height:54px; border-radius:16px; background:linear-gradient(135deg,#1e1e1e,#242424); display:flex; align-items:center; justify-content:center; position:relative; flex-shrink:0; }
+.trendSvg { width:34px; height:34px; stroke:rgba(255,255,255,0.09); fill:none; stroke-width:2.2px; }
+.arrowBg { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:.55; pointer-events:none; }
+.arrowBg svg { width:80%; height:auto; stroke:rgba(255,255,255,0.04); stroke-width:21.84; fill:none; }
+.ratingCard.dark { background:linear-gradient(145deg,#131313,#1a1a1a); }
+
+/* Responsive */
+@media (max-width:1150px){
+  .inner { padding:3.75rem 40px 3.75rem; }
+  .cardsGrid { grid-template-columns:repeat(2,1fr); gap:26px; grid-auto-rows:auto; }
+  .headlineAside { grid-column:1 / span 12; max-width:52ch; }
+  .cardsGrid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+@media (max-width:860px){
+  .inner { border:none; padding:3.25rem 32px 3.5rem; gap:40px; }
+  .cardsGrid { grid-template-columns:repeat(2,1fr); gap:26px; }
+  .partnersCard { grid-row:auto; }
+  .revenueCard { grid-row:auto; }
+  .roiCard { grid-row:auto; }
+  .availabilityCard { grid-row:auto; }
+  .ratingCard { grid-row:auto; grid-column:1 / span 2; }
+  .subtitle,.title { font-size:clamp(1.9rem,7vw,3.2rem); }
+}
+@media (max-width:520px){
+  .cardsGrid { grid-template-columns:1fr; }
+  .avatarRing { width:40px; height:40px; }
+  .statValue { font-size:3.1rem; }
+  .ratingStat { font-size:3.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .avatarRing, .trendSvg { animation:none; }
+}
+
+@keyframes pulseDot {
+  0% { transform:scale(1); box-shadow:0 0 0 4px rgba(51,212,120,.25); }
+  50% { transform:scale(1.38); box-shadow:0 0 0 6px rgba(51,212,120,.15); }
+  100% { transform:scale(1); box-shadow:0 0 0 4px rgba(51,212,120,.25); }
+}

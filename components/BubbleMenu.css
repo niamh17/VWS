@@ -1,0 +1,181 @@
+.bubble-menu { left:0; right:0; top:2em; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 2em; pointer-events:none; z-index:99; }
+.bubble-menu.no-logo { justify-content:flex-end; }
+.bubble-menu.fixed { position:fixed; }
+/* Constrain global fixed nav to hero content width & padding */
+.bubble-menu.fixed { left:50%; transform:translateX(-50%); width:100%; max-width:1120px; padding:0 56px; box-sizing:border-box; }
+/* Apply same visual left shift as .heroShiftLeft variant of hero for large screens */
+.bubble-menu.hero-shift { transform:translateX(calc(-50% - 40px)); }
+@media (max-width:1280px){ .bubble-menu.hero-shift { transform:translateX(calc(-50% - 24px)); } }
+@media (max-width:1080px){ .bubble-menu.hero-shift { transform:translateX(-50%); } }
+.bubble-menu.absolute { position:absolute; }
+.bubble-menu .bubble { --bubble-size:46px; width:var(--bubble-size); height:var(--bubble-size); border-radius:50%; background:rgba(255,255,255,0.12); backdrop-filter:blur(8px) saturate(140%); -webkit-backdrop-filter:blur(8px) saturate(140%); box-shadow:0 2px 10px -4px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.18) inset; display:inline-flex; align-items:center; justify-content:center; pointer-events:auto; position:relative; transition:transform .28s cubic-bezier(.22,.9,.3,1), box-shadow .3s ease; }
+.bubble-menu .logo-bubble, .bubble-menu .toggle-bubble { will-change:transform, filter; }
+.bubble-menu .logo-bubble { --logo-bubble-height:54px; width:auto; min-height:var(--logo-bubble-height); height:var(--logo-bubble-height); padding:0 22px; border-radius:calc(var(--logo-bubble-height)/2); gap:10px; background:#000000; backdrop-filter:none; -webkit-backdrop-filter:none; box-shadow:0 2px 14px -4px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.12) inset, 0 0 0 2px #ff632f, 0 0 18px -2px rgba(255,99,47,0.55); border:2px solid #ff632f; }
+.bubble-menu .toggle-bubble { width:var(--bubble-size); height:var(--bubble-size); }
+.bubble-menu .toggle-bubble { animation:toggleFloat 6.5s ease-in-out infinite; }
+@keyframes toggleFloat { 0% { transform:translateY(0) scale(1); } 50% { transform:translateY(-6px) scale(1.03); } 100% { transform:translateY(0) scale(1); } }
+@media (prefers-reduced-motion: reduce){ .bubble-menu .toggle-bubble { animation:none; } }
+/* Hamburger (toggle) bubble: add width/height transition for squish */
+.bubble-menu .toggle-bubble { transition:transform .28s cubic-bezier(.22,.9,.3,1), box-shadow .3s ease, width .25s var(--bubbleTiming, cubic-bezier(.22,.9,.3,1)), height .25s var(--bubbleTiming, cubic-bezier(.22,.9,.3,1)); }
+/* Hover: just slight lift like other bubbles (no squish) */
+.bubble-menu .toggle-bubble:hover { transform:translateY(-6px) scale(1.07); }
+@media (prefers-reduced-motion: reduce){
+	.bubble-menu .toggle-bubble:hover { transform:translateY(-3px) scale(1); }
+}
+.bubble-menu .bubble::after { content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(circle at 30% 25%, rgba(255,255,255,0.55), rgba(255,255,255,0) 65%); mix-blend-mode:soft-light; pointer-events:none; }
+.bubble-menu .bubble:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 5px 14px -4px rgba(0,0,0,0.42), 0 0 0 1px rgba(255,255,255,0.38) inset; }
+.bubble-menu .bubble:active { transform:translateY(0) scale(.92); }
+/* Active (mouse down) squish only for hamburger toggle */
+.bubble-menu .toggle-bubble:active { width:calc(var(--bubble-size)*1.2); height:calc(var(--bubble-size)*0.8); transform:translateY(0) scale(1.08); }
+@media (prefers-reduced-motion: reduce){
+	.bubble-menu .bubble:hover { transform:translateY(-3px) scale(1); }
+}
+.bubble-menu .bubble-logo { max-height:100%; max-width:100%; object-fit:contain; display:block; }
+.bubble-menu .logo-content { --logo-max-height:100%; --logo-max-width:100%; display:inline-flex; align-items:center; justify-content:center; width:120px; height:100%; }
+.bubble-menu .logo-content>.bubble-logo, .bubble-menu .logo-content>img, .bubble-menu .logo-content>svg { max-height:var(--logo-max-height); max-width:var(--logo-max-width); }
+.bubble-menu .menu-btn { border:none; background:transparent; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0; }
+.bubble-menu .menu-line { width:22px; height:2px; background:#000; border-radius:2px; display:block; margin:0 auto; transition:transform .3s ease, opacity .3s ease, background .3s ease; transform-origin:center; box-shadow:0 0 0 1px rgba(255,255,255,0.25) inset, 0 1px 2px rgba(0,0,0,0.55); }
+.bubble-menu .menu-line+.menu-line { margin-top:6px; }
+/* Open state keeps orange tone but deepens slightly */
+/* Open state uses same inline color; only transform changes */
+.bubble-menu .menu-btn.open .menu-line:first-child { transform:translateY(4px) rotate(45deg); }
+.bubble-menu .menu-btn.open .menu-line:last-child { transform:translateY(-4px) rotate(-45deg); }
+@media (hover:hover){ .bubble-menu .menu-btn:hover .menu-line { filter:brightness(1.08); } }
+@media (min-width:768px){ .bubble-menu .bubble { --bubble-size:50px; } .bubble-menu .logo-bubble { --logo-bubble-height:60px; padding:0 26px; } }
+.bubble-menu-items { position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; pointer-events:none; z-index:98; padding-top:200px; /* moved lower (was 140px) */
+	/* Uniform base film so no corner is lighter */
+	background:rgba(255,255,255,0.55); /* fallback tint behind blur layers */
+}
+/* Enhanced glass backdrop overlay for stronger focus */
+/* We add a darker tint + heavier blur so background content is much less distracting */
+/* Uniform frosted glass layer (higher opacity for corners) */
+.bubble-menu-items::before { content:""; position:absolute; inset:0; background:rgba(255,255,255,0.72); /* single even sheet */
+	backdrop-filter:blur(38px) saturate(185%);
+	-webkit-backdrop-filter:blur(38px) saturate(185%);
+	box-shadow:inset 0 0 0 1px rgba(255,255,255,0.30), 0 2px 10px -4px rgba(0,0,0,0.28);
+	pointer-events:none;
+}
+/* Remove previous ::after dim layer for a cleaner glass look */
+.bubble-menu-items::after { display:none; }
+/* Ensure list sits above pseudo element */
+.bubble-menu-items .pill-list { position:relative; z-index:1; }
+/* Prevent page scroll while menu open */
+body.menu-open { overflow:hidden; }
+/* Modal bubble mode */
+.bubble-menu-items.modal-mode { align-items:center; padding-top:0; }
+.bubble-menu-items.modal-mode .bubble-modal { position:absolute; left:50%; top:50%; width:120vmax; height:120vmax; transform:translate(-50%,-50%); border-radius:50%; background:radial-gradient(circle at 35% 30%, rgba(255,255,255,0.85), rgba(255,255,255,0.55) 55%, rgba(255,255,255,0.40) 70%, rgba(255,255,255,0.25) 82%, rgba(255,255,255,0.15) 100%); backdrop-filter:blur(40px) saturate(180%); -webkit-backdrop-filter:blur(40px) saturate(180%); box-shadow:0 8px 40px -12px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.28) inset, 0 0 0 2px rgba(255,255,255,0.08); pointer-events:none; }
+.bubble-menu-items.modal-mode .pill-list { max-width:1000px; }
+.bubble-menu-items.modal-mode .pill-list .pill-col { flex:0 0 33.333%; }
+@media (max-width:899px){
+	.bubble-menu-items.modal-mode .pill-list .pill-col { flex:0 0 50%; }
+	.bubble-menu-items.modal-mode .pill-list { row-gap:16px; }
+}
+.bubble-menu-items.fixed { position:fixed; }
+.bubble-menu-items.absolute { position:absolute; }
+.bubble-menu-items .pill-list { list-style:none; margin:0; padding:0 18px; display:flex; flex-wrap:wrap; gap:0; row-gap:4px; width:100%; max-width:1600px; margin-left:auto; margin-right:auto; pointer-events:auto; justify-content:center; }
+.bubble-menu-items .pill-list .pill-spacer { width:100%; height:0; pointer-events:none; }
+.bubble-menu-items .pill-list .pill-col { display:flex; justify-content:center; align-items:stretch; flex:0 0 28%; max-width:28%; box-sizing:border-box; padding:0 5px; }
+/* Centering handled by flex container; removed manual 7th-item offset */
+	.bubble-menu-items .pill-link { --pill-bg:rgba(255,255,255,0.2); --pill-color:#111; --pill-border:rgba(255,255,255,0.28); --item-rot:0deg; --pill-min-h:92px; --hover-bg:rgba(255,255,255,0.32); --hover-color:#111; --bubble-accent:hsl(210 90% 55% / 0.55); width:100%; min-height:var(--pill-min-h); padding:clamp(.85rem,1.6vw,2.2rem) 0; font-size:clamp(1rem,2.2vw,2.15rem); font-family:var(--font-menu); font-weight:400; line-height:1; border-radius:999px; background:
+	linear-gradient(145deg, rgba(255,255,255,0.32), rgba(255,255,255,0.06)) /* base glass */;
+	/* We will add clustered radial highlights + inner shading via pseudo elements for realistic bubble look */
+	color:var(--pill-color); text-decoration:none; box-shadow:
+		/* Outer ambient + lift */
+		0 4px 10px -2px rgba(0,0,0,0.35),
+		0 10px 28px -10px rgba(0,0,0,0.45),
+		/* Thin outer rim */
+		0 0 0 1px rgba(255,255,255,0.28) inset,
+		/* Inner glow stack */
+		0 -0.06em 0.12em hsla(0,0%,100%,0.9) inset,
+		0 -0.15em 0.4em var(--bubble-accent) inset,
+		0 0.05em 0.05em var(--bubble-accent) inset,
+		0.05em 0 0.1em hsla(0,0%,100%,0.85) inset,
+		-0.05em 0 0.1em hsla(0,0%,100%,0.85) inset,
+		0 0.12em 0.45em hsl(210 90% 60% / 0.55) inset;
+	display:flex; align-items:center; justify-content:center; position:relative; transition:background .35s ease, color .35s ease, box-shadow .45s ease, transform .5s cubic-bezier(.22,.9,.3,1); will-change:transform; box-sizing:border-box; white-space:nowrap; overflow:hidden; backdrop-filter:blur(14px) saturate(150%); -webkit-backdrop-filter:blur(14px) saturate(150%); isolation:isolate; }
+/* clustered specular highlights */
+.bubble-menu-items .pill-link::before { content:""; position:absolute; inset:0; border-radius:inherit; background-image:
+		radial-gradient(8% 8% at 22% 28%,rgba(255,255,255,0.95) 45%,rgba(255,255,255,0) 50%),
+		radial-gradient(8% 8% at 23% 27%,rgba(255,255,255,0.9) 45%,rgba(255,255,255,0) 50%),
+		radial-gradient(8% 8% at 24% 26%,rgba(255,255,255,0.85) 45%,rgba(255,255,255,0) 50%),
+		radial-gradient(8% 8% at 25% 25%,rgba(255,255,255,0.8) 45%,rgba(255,255,255,0) 50%),
+		radial-gradient(8% 8% at 26% 24%,rgba(255,255,255,0.75) 45%,rgba(255,255,255,0) 50%),
+		radial-gradient(8% 8% at 27% 23%,rgba(255,255,255,0.65) 45%,rgba(255,255,255,0) 50%),
+		radial-gradient(8% 8% at 28% 22%,rgba(255,255,255,0.55) 45%,rgba(255,255,255,0) 50%);
+	mix-blend-mode:screen; pointer-events:none; opacity:.9; filter:blur(.2px); }
+/* inner soft shadow + subtle highlight rim */
+.bubble-menu-items .pill-link::after { content:""; position:absolute; inset:0; border-radius:inherit; background:
+		radial-gradient(100% 140% at 50% 60%, hsla(0,0%,0%,0) 35%, hsla(0,0%,0%,0.25) 55%, hsla(0,0%,0%,0) 62%),
+		radial-gradient(circle at 30% 25%, rgba(255,255,255,0.55), rgba(255,255,255,0) 68%);
+	filter:blur(5px); mix-blend-mode:soft-light; pointer-events:none; }
+/* elevate on hover with stronger glow */
+@media (min-width:900px){ .bubble-menu-items .pill-link:hover { box-shadow:
+		0 12px 28px -12px rgba(0,0,0,0.55),
+		0 0 0 1px rgba(255,255,255,0.42) inset,
+		0 -0.06em 0.12em hsla(0,0%,100%,0.95) inset,
+		0 -0.18em 0.5em var(--bubble-accent) inset,
+		0 0.08em 0.1em var(--bubble-accent) inset,
+		0.06em 0 0.12em hsla(0,0%,100%,0.9) inset,
+		-0.06em 0 0.12em hsla(0,0%,100%,0.9) inset,
+		0 0.14em 0.55em hsl(210 90% 65% / 0.6) inset; } }
+@media (max-width:899px){ .bubble-menu-items .pill-link:hover { box-shadow:
+		0 8px 24px -10px rgba(0,0,0,0.5),
+		0 0 0 1px rgba(255,255,255,0.42) inset,
+		0 -0.06em 0.12em hsla(0,0%,100%,0.95) inset,
+		0 -0.18em 0.5em var(--bubble-accent) inset,
+		0 0.08em 0.1em var(--bubble-accent) inset,
+		0.06em 0 0.12em hsla(0,0%,100%,0.9) inset,
+		-0.06em 0 0.12em hsla(0,0%,100%,0.9) inset,
+		0 0.14em 0.55em hsl(210 90% 65% / 0.6) inset; } }
+/* ensure text sits above layered effects */
+.bubble-menu-items .pill-link .pill-label { position:relative; z-index:1; }
+/* Remove earlier hover background color changes: unify to squish-only */
+/* Base pill link */
+.bubble-menu-items .pill-link { transform:rotate(var(--item-rot)); transform-origin:center; transition:transform .35s cubic-bezier(.22,.9,.3,1), box-shadow .45s ease; }
+/* Single orange accent for all menu items */
+.bubble-menu-items .pill-list .pill-col .pill-link { --bubble-accent:hsl(18 98% 56% / 0.6); background-image:
+	linear-gradient(145deg, rgba(255,255,255,0.36), rgba(255,255,255,0.08)),
+	radial-gradient(circle at 40% 30%, rgba(255,173,120,0.55), rgba(255,173,120,0) 65%);
+}
+.bubble-menu-items .pill-link:active { transform:rotate(var(--item-rot)) scale(.94); }
+.bubble-menu-items .pill-link .pill-label { display:inline-block; will-change:transform, opacity; height:1.2em; line-height:1.2; }
+/* Keep slightly smaller text on narrow screens but preserve 3-column layout */
+@media (max-width:899px){
+	.bubble-menu-items { padding-top:140px; }
+	.bubble-menu-items .pill-list { row-gap:8px; }
+	.bubble-menu-items .pill-list .pill-col { flex:0 0 calc(100%/3); }
+	.bubble-menu-items .pill-link { font-size:clamp(.85rem,3vw,1.4rem); padding:clamp(.55rem,1.4vw,.95rem) 0; min-height:54px; }
+}
+
+/* Neutralize previous active shrink so it doesn't fight hover squish (keep slight press) */
+.bubble-menu-items .pill-link:active { transform:rotate(var(--item-rot)) scale(.9); }
+
+/* Respect reduced motion: keep original size */
+@media (prefers-reduced-motion: reduce){
+	.bubble-menu-items .pill-link:hover { transform:rotate(var(--item-rot)) scale(1); }
+	.bubble-menu-items .pill-link:active { transform:rotate(var(--item-rot)) scale(1); }
+}
+
+/* Single authoritative hover squish rule */
+.bubble-menu-items .pill-link:hover { transform:rotate(var(--item-rot)) scaleX(1.1) scaleY(.72); background:inherit; color:inherit; }
+
+@media (prefers-reduced-motion: reduce){
+	.bubble-menu-items .pill-link:hover { transform:rotate(var(--item-rot)) scale(1); }
+}
+
+/* Footer / social section */
+.bubble-menu-items .menu-footer { width:100%; max-width:1600px; margin:110px auto 0; padding:0 24px 90px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; gap:22px; pointer-events:auto; }
+.bubble-menu-items .follow-label { font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#444; opacity:.85; }
+.bubble-menu-items .social-links { list-style:none; margin:0; padding:0; display:flex; gap:18px; }
+.bubble-menu-items .social-links a { --orb-grad:linear-gradient(145deg,#ff9c62 0%,#ff7237 55%,#ff4726 100%); --orb-size:52px; width:var(--orb-size); height:var(--orb-size); border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--orb-grad); position:relative; text-decoration:none; color:#111; isolation:isolate; backdrop-filter:blur(12px) saturate(160%); -webkit-backdrop-filter:blur(12px) saturate(160%); box-shadow:0 10px 28px -10px rgba(0,0,0,0.55), 0 4px 10px -4px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.18) inset, 0 0 0 6px rgba(255,71,38,0.25) inset; overflow:hidden; transition:transform .5s cubic-bezier(.22,.9,.3,1), box-shadow .6s ease, filter .6s ease; }
+.bubble-menu-items .social-links a::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 35% 28%,rgba(255,255,255,0.55),rgba(255,255,255,0) 66%), radial-gradient(circle at 70% 75%,rgba(255,120,60,0.45),rgba(255,120,60,0) 70%); mix-blend-mode:overlay; pointer-events:none; }
+.bubble-menu-items .social-links a::after { content:""; position:absolute; left:12%; top:14%; width:56%; height:56%; background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.9),rgba(255,255,255,0.05) 65%); border-radius:50%; filter:blur(2px); opacity:.9; mix-blend-mode:screen; pointer-events:none; }
+.bubble-menu-items .social-links a:hover { transform:translateY(-6px) scale(1.12) rotate(-2deg); box-shadow:0 18px 38px -14px rgba(0,0,0,0.65), 0 6px 14px -6px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.28) inset, 0 0 0 8px rgba(255,71,38,0.35) inset; }
+.bubble-menu-items .social-links a:active { transform:translateY(-2px) scale(.94); box-shadow:0 6px 18px -8px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.32) inset, 0 0 0 6px rgba(255,71,38,0.32) inset; }
+.bubble-menu-items .social-links svg { width:24px; height:24px; display:block; color:#000; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3)); transition:transform .6s cubic-bezier(.22,.9,.3,1); }
+.bubble-menu-items .social-links a:hover svg { transform:scale(1.08) translateY(-2px); }
+@media (max-width:899px){
+	.bubble-menu-items .menu-footer { margin:90px auto 0; padding:0 24px 72px; gap:18px; }
+	.bubble-menu-items .social-links a { --orb-size:46px; }
+	.bubble-menu-items .social-links svg { width:22px; height:22px; }
+}
