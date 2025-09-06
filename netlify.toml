@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# Optional: speed up builds by skipping when only docs/non-app files change
+# ignore = "git diff --quiet HEAD^ HEAD ./"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
