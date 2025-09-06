@@ -33,7 +33,7 @@ filter: saturate(110%) brightness(105%);
 .row { display:flex; flex-wrap:wrap; align-items:flex-start; gap:20px; }
 .field { background:#141414; border:1px solid #262626; border-radius:12px; padding:16px 18px 18px; flex:1 1 240px; min-width:220px; display:flex; flex-direction:column; gap:8px; position:relative; }
 .field h5 { margin:0; font-size:17px; font-weight:600; color:#fff; }
-.field p { margin:0; font-size:14px; line-height:1.45; color:#b3b3b3; }
+.field p { margin:0; font-size:14px; line-height:1.4; color:#b3b3b3; }
 .counter { display:flex; align-items:center; gap:10px; }
 .counter button { width:36px; height:36px; border-radius:50%; border:1px solid #2a2a2a; background:rgba(255,255,255,0.04); color:#fff; font-size:18px; cursor:pointer; transition:background .25s; }
 .counter button:hover { background:rgba(255,255,255,0.12); }
@@ -42,7 +42,12 @@ filter: saturate(110%) brightness(105%);
 .toggle { display:flex; gap:14px; align-items:flex-start; cursor:pointer; }
 .toggle input { margin-top:4px; }
 .toggleLabel { font-size:16px; font-weight:600; color:#f5f5f5; margin:0; }
-.toggleDesc { margin:4px 0 0; font-size:13px; line-height:1.5; color:#a0a0a0; }
+.toggleDesc { margin:4px 0 0; font-size:13px; line-height:1.45; color:#a0a0a0; }
+.colStack { display:flex; flex-direction:column; gap:20px; flex:1 1 300px; min-width:260px; }
+/* Prevent artificial equal-height stretching that creates empty bottom space */
+.colStack .field { flex:0 0 auto; }
+.rowHeads { display:flex; gap:20px; align-items:flex-end; }
+.rowHeads .groupTitle { flex:1 1 300px; min-width:260px; }
 .totalBox { margin-top:4px; padding:22px 24px 24px; background:linear-gradient(to right, rgba(255,255,255,0.07), rgba(255,255,255,0.03)); border:1px solid #262626; border-radius:16px; display:flex; flex-direction:column; gap:10px; }
 .totalLabel { margin:0; font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; color:#9b9b9b; }
 .totalPrice { margin:0; font-size:38px; font-weight:600; color:#fff; line-height:1; }

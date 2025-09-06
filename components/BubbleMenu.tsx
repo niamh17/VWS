@@ -210,18 +210,17 @@ export default function BubbleMenu({
           aria-pressed={isMenuOpen}
           style={{
             background: toggleBubbleBg
-              ? `linear-gradient(145deg,#ff7a45,#ff4726 58%,#d93412)`
+              ? `linear-gradient(145deg,#1a1a1a,#000000 58%,#000000)`
               : toggleBubbleBg || toggleColor || menuBg,
             border: (toggleBubbleBg || toggleColor) ? '2px solid #000' : undefined,
             boxShadow: (toggleBubbleBg || toggleColor)
-              ? '0 8px 18px -6px rgba(0,0,0,0.6), 0 3px 6px -3px rgba(0,0,0,0.45), 0 0 0 2px rgba(0,0,0,0.55) inset, 0 0 0 1px rgba(255,255,255,0.28) inset, 0 0 14px -2px rgba(255,95,44,0.55)'
+              ? '0 8px 18px -6px rgba(0,0,0,0.6), 0 3px 6px -3px rgba(0,0,0,0.45), 0 0 0 2px rgba(0,0,0,0.55) inset, 0 0 0 1px rgba(255,255,255,0.28) inset, 0 0 14px -2px rgba(0,0,0,0.55)'
               : undefined,
             position:'relative'
           }}
         >
           {(() => {
-            const isPureBlack = ['#000','#000000','000','black'].includes(toggleColor.toLowerCase());
-            const lineColor = isPureBlack ? '#000' : (isMenuOpen ? shade(toggleColor, 0.15) : toggleColor);
+            const lineColor = '#ff4726';
             return (
               <>
                 <span className="menu-line" style={{ background: lineColor }} />

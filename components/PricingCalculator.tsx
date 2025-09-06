@@ -123,95 +123,98 @@ export default function PricingCalculator() {
         </div>
         <div className={styles.calculator}>
           <div className={styles.group}>
-            <h4 className={styles.groupTitle}>Website</h4>
-            <div className={styles.row}>
-              <div className={styles.field}>
-                <h5>Pages</h5>
-                <p>Base package includes 4 pages at $350. Each additional page adds $100.</p>
-                <div className={styles.counter}>
-                  <button aria-label="Decrease pages" onClick={() => setPages(p => Math.max(1, p-1))}>-</button>
-                  <span>{pages}</span>
-                  <button aria-label="Increase pages" onClick={() => setPages(p => p+1)}>+</button>
-                </div>
-              </div>
-              <div className={styles.field}>
-                <h5>Backend system</h5>
-                <p>Select a backend scope. Simple includes self‑service content management. Complex layers on advanced features.</p>
-                <div className={styles.toggleList}>
-                  {backendOptions.map(opt => {
-                    const active = selected.has(opt.id);
-                    return (
-                      <label key={opt.id} className={styles.toggle}>
-                        <input type="radio" name="backend" checked={active} onChange={()=>toggleOption(opt)} />
-                        <div>
-                          <p className={styles.toggleLabel}>{opt.label} <span style={{color:'#ff4726'}}>{active?`+$${opt.price}`:''}</span></p>
-                          <p className={styles.toggleDesc}>{opt.desc}</p>
-                        </div>
-                      </label>
-                    );
-                  })}
-                  <label className={styles.toggle}>
-                    <input type="radio" name="backend" checked={!backendOptions.some(o=>selected.has(o.id))} onChange={()=>{
-                      // clear backend selections
-                      setSelected(s=>{
-                        const next = new Set(s);
-                        backendOptions.forEach(o=>next.delete(o.id));
-                        return next;});
-                    }} />
-                    <div>
-                      <p className={styles.toggleLabel}>No backend</p>
-                      <p className={styles.toggleDesc}>Static / marketing site only.</p>
-                    </div>
-                  </label>
-                </div>
-              </div>
+            <div className={styles.rowHeads}>
+              <h4 className={styles.groupTitle}>Website</h4>
+              <h4 className={styles.groupTitle}>Add-ons</h4>
             </div>
-          </div>
-          <div className={styles.group}>
-            <h4 className={styles.groupTitle}>Add-ons</h4>
             <div className={styles.row}>
-              <div className={styles.field}>
-                <h5>Marketing</h5>
-                <div className={styles.toggleList}>
-                  {otherOptions.filter(o=>o.id==='social-ads').map(opt => {
-                    const active = selected.has(opt.id);
-                    return (
-                      <label key={opt.id} className={styles.toggle}>
-                        <input type="checkbox" checked={active} onChange={()=>toggleOption(opt)} />
-                        <div>
-                          <p className={styles.toggleLabel}>{opt.label} <span style={{color:'#ff4726'}}>{active?`+$${opt.price}`:''}</span></p>
-                          <p className={styles.toggleDesc}>{opt.desc}</p>
-                          {active && (
-                            <div style={{marginTop:8}}>
-                              <p className={styles.toggleDesc} style={{marginBottom:6}}>Extra campaigns per month beyond 3 included:</p>
-                              <div className={styles.counter}>
-                                <button aria-label="Decrease extra campaigns" onClick={() => setExtraCampaigns(c => Math.max(0, c-1))}>-</button>
-                                <span>{extraCampaigns}</span>
-                                <button aria-label="Increase extra campaigns" onClick={() => setExtraCampaigns(c => c+1)}>+</button>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </label>
-                    );
-                  })}
+              {/* Left column: Pages then Backend underneath */}
+              <div className={styles.colStack}>
+                <div className={styles.field}>
+                  <h5>Pages</h5>
+                  <p>Base package includes 4 pages at $350. Each additional page adds $100.</p>
+                  <div className={styles.counter}>
+                    <button aria-label="Decrease pages" onClick={() => setPages(p => Math.max(1, p-1))}>-</button>
+                    <span>{pages}</span>
+                    <button aria-label="Increase pages" onClick={() => setPages(p => p+1)}>+</button>
+                  </div>
+                </div>
+                <div className={styles.field}>
+                  <h5>Backend system</h5>
+                  <p>Select a backend scope. Simple includes self‑service content management. Complex layers on advanced features.</p>
+                  <div className={styles.toggleList}>
+                    {backendOptions.map(opt => {
+                      const active = selected.has(opt.id);
+                      return (
+                        <label key={opt.id} className={styles.toggle}>
+                          <input type="radio" name="backend" checked={active} onChange={()=>toggleOption(opt)} />
+                          <div>
+                            <p className={styles.toggleLabel}>{opt.label} <span style={{color:'#ff4726'}}>{active?`+$${opt.price}`:''}</span></p>
+                            <p className={styles.toggleDesc}>{opt.desc}</p>
+                          </div>
+                        </label>
+                      );
+                    })}
+                    <label className={styles.toggle}>
+                      <input type="radio" name="backend" checked={!backendOptions.some(o=>selected.has(o.id))} onChange={()=>{
+                        setSelected(s=>{
+                          const next = new Set(s);
+                          backendOptions.forEach(o=>next.delete(o.id));
+                          return next;});
+                      }} />
+                      <div>
+                        <p className={styles.toggleLabel}>No backend</p>
+                        <p className={styles.toggleDesc}>Static / marketing site only.</p>
+                      </div>
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div className={styles.field}>
-                <h5>Brand & Identity</h5>
-                <div className={styles.toggleList}>
-                  {otherOptions.filter(o=>o.id==='brand-kits').map(opt => {
-                    const active = selected.has(opt.id);
-                    return (
-                      <label key={opt.id} className={styles.toggle}>
-                        <input type="checkbox" checked={active} onChange={()=>toggleOption(opt)} />
-                        <div>
-                          <p className={styles.toggleLabel}>{opt.label} <span style={{color:'#ff4726'}}>{active?`+$${opt.price}`:''}</span></p>
-                          <p className={styles.toggleDesc}>{opt.desc}</p>
-                        </div>
-                      </label>
-                    );
-                  })}
+              {/* Right column: Add-ons (Marketing & Brand) stacked where backend used to be */}
+              <div className={styles.colStack}>
+                <div className={styles.field}>
+                  <h5>Marketing add-ons</h5>
+                  <div className={styles.toggleList}>
+                    {otherOptions.filter(o=>o.id==='social-ads').map(opt => {
+                      const active = selected.has(opt.id);
+                      return (
+                        <label key={opt.id} className={styles.toggle}>
+                          <input type="checkbox" checked={active} onChange={()=>toggleOption(opt)} />
+                          <div>
+                            <p className={styles.toggleLabel}>{opt.label} <span style={{color:'#ff4726'}}>{active?`+$${opt.price}`:''}</span></p>
+                            <p className={styles.toggleDesc}>{opt.desc}</p>
+                            {active && (
+                              <div style={{marginTop:8}}>
+                                <p className={styles.toggleDesc} style={{marginBottom:6}}>Extra campaigns per month beyond 3 included:</p>
+                                <div className={styles.counter}>
+                                  <button aria-label="Decrease extra campaigns" onClick={() => setExtraCampaigns(c => Math.max(0, c-1))}>-</button>
+                                  <span>{extraCampaigns}</span>
+                                  <button aria-label="Increase extra campaigns" onClick={() => setExtraCampaigns(c => c+1)}>+</button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className={styles.field}>
+                  <h5>Brand & Identity add-ons</h5>
+                  <div className={styles.toggleList}>
+                    {otherOptions.filter(o=>o.id==='brand-kits').map(opt => {
+                      const active = selected.has(opt.id);
+                      return (
+                        <label key={opt.id} className={styles.toggle}>
+                          <input type="checkbox" checked={active} onChange={()=>toggleOption(opt)} />
+                          <div>
+                            <p className={styles.toggleLabel}>{opt.label} <span style={{color:'#ff4726'}}>{active?`+$${opt.price}`:''}</span></p>
+                            <p className={styles.toggleDesc}>{opt.desc}</p>
+                          </div>
+                        </label>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>

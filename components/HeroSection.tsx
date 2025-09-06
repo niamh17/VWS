@@ -28,27 +28,19 @@ const Star = () => (
 );
 
 const HeroSection: React.FC = () => {
-  // Current month name (updates on mount; sufficient for marketing site)
-  const currentMonth = new Date().toLocaleString('en-US', { month: 'long' });
+  // Availability tag removed per request
 
   return (
     <div className={`${styles.heroOuter} ${styles.heroShiftLeft}`}>
   <section className={styles.heroRoot} aria-label="Hero section">
   {/* Global BubbleMenu moved to RootLayout to avoid transform clipping & allow full-screen overlay */}
       <div className={styles.leftCol}>
-  {/* Standalone logo removed; now inside bubble menu */}
-        <div className={styles.tagWrapper} aria-label={`Availability for ${currentMonth}`}>
-          <span className={styles.tagDots} aria-hidden="true">
-            <span className={styles.tagDotOuter}></span>
-            <span className={styles.tagDotInner}></span>
-          </span>
-          Available for {currentMonth}
-        </div>
+  {/* Availability tag removed */}
         <div className={styles.headingBlock}>
           <div className={styles.headingRow}>
             <h1 className={styles.heroHeading}>
               <span className={styles.lineOne}>
-                <span>Fuelling</span>
+                <span>Websites that</span>
                 <span className={styles.trendIconInline} aria-hidden="true">
                   <span className={styles.trendIconBox} data-framer-name="Icon Container">
                     <svg className={styles.trendSvg} viewBox="0 0 24 24" fill="none" role="presentation" focusable="false" aria-hidden="true">
@@ -57,20 +49,25 @@ const HeroSection: React.FC = () => {
                     </svg>
                   </span>
                 </span>
-                <span>growth</span>
+                <span>2x</span>
               </span>
               <br />
-              <span className={styles.lineTwo}>with every click</span>
+              <span className={styles.lineTwo}>leads for</span>
+              <br />
+              <span className={styles.lineTwo}>startups &amp; agencies</span>
             </h1>
           </div>
-          <p className={styles.subtitle}>We design conversion‑focused websites and build custom software engineered to attract, onboard, and retain users as you scale.</p>
+          <p className={styles.subtitle}>
+            Get real sales-focused &amp; world-class designs:<br />
+            Landing pages, Branding, 3D, MVPs
+          </p>
           <div className={styles.buttons}>
-            {/* Primary CTA with flip animation; aria-label provides full text so we can shorten front face */}
-            <a href="#pricing" className={styles.primaryBtn} data-framer-name="Primary" aria-label="Drive results now">
+      {/* Primary CTA with flip animation; updated copy per request */}
+  <a href="#book" className={styles.primaryBtn} data-framer-name="Primary" aria-label="Book a free 15 min website audit">
               <span className={styles.flipWrap} aria-hidden="true">
-                <span className={styles.flipMeasure}>Drive results now</span>
-                <span className={styles.flipFront}>Drive results</span>
-                <span className={styles.flipBack}>Drive results now</span>
+        <span className={styles.flipMeasure}>Book a free 15 min website audit</span>
+        <span className={styles.flipFront}>Book a free 15 min website audit</span>
+        <span className={styles.flipBack}>Book a free 15 min website audit</span>
               </span>
             </a>
             {/* Secondary CTA */}

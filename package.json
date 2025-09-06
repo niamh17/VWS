@@ -15,7 +15,8 @@
     "next": "14.2.7",
     "ogl": "^1.0.11",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^5.2.1"
   },
   "devDependencies": {
     "@types/node": "20.11.30",

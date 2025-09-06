@@ -1,0 +1,18 @@
+.section { width:100%; background:#0c0c0c; padding:3.25rem 32px; display:flex; justify-content:center; box-sizing:border-box; }
+.container { width:100%; max-width:1180px; margin:0 auto; position:relative; }
+.container::before,.container::after { content:""; position:absolute; top:0; bottom:0; width:1px; border-right:1px dotted #2a2a2a; }
+.container::before { left:0; }
+.container::after { right:0; }
+
+.inner { width:100%; max-width:980px; margin:0 auto; display:flex; flex-direction:column; gap:16px; }
+.title { margin:0; font-size:32px; font-weight:600; line-height:1.1; color:#fff; text-align:center; }
+.subtitle { margin:0; font-size:15px; color:#bfbfbf; text-align:center; }
+
+.embedCard { background:#141414; border:1px solid #262626; border-radius:16px; padding:12px; }
+.embedContainer { width:100%; min-height:680px; overflow:auto; border-radius:12px; }
+
+@media (max-width:680px){
+  .section { padding:2.5rem 20px; }
+  .title { font-size:26px; }
+  .embedContainer { min-height:620px; }
+}

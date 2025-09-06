@@ -3,14 +3,17 @@ import type { ReactNode } from 'react';
 import BubbleMenu from '../components/BubbleMenu';
 
 export const metadata = {
-  title: 'Arc Site',
-  description: 'Marketing site',
+  // Updated branding: only title & favicon per request
+  title: 'Vibe Web Studio',
+  description: 'Vibe Web Studio – bespoke websites, funnels & digital growth services.',
   icons: {
     icon: [
-      { url: '/favicon.png', type: 'image/png' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.png', sizes: '16x16', type: 'image/png' }
     ],
-    shortcut: ['/favicon.png'],
-    apple: [{ url: '/favicon.png' }],
+    shortcut: ['/favicon.svg'],
+    apple: [{ url: '/logo.png', sizes: '180x180', type: 'image/png' }],
   },
   manifest: '/site.webmanifest'
 };
@@ -18,11 +21,15 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
   <html lang="en">
+      <head>
+        <script defer src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+  <link rel="mask-icon" href="/favicon.svg" color="#ff4726" />
+      </head>
       <body>
         {/* Site-wide navigation: moved out of HeroSection so overlay isn't clipped by hero overflow/transform */}
         <BubbleMenu
           useFixedPosition
-          logo={<img src="/logo.png" alt="Logo" style={{ display:'block', height:'100%', width:'auto' }} />}
+          logo={<img src="/logo.png" alt="Vibe Web Studio logo" style={{ display:'block', height:'100%', width:'auto' }} />}
           className="hero-shift"
           menuAriaLabel="Toggle navigation"
           menuBg="#000000"
