@@ -4,14 +4,17 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+// Next.js 15 PageProps now types params/searchParams as Promises; reflect that here
+type ParamsPromise = Promise<{ slug: string }>; // SegmentParams resolved shape for this route
+interface AsyncProps { params: ParamsPromise }
+
 export function generateStaticParams(){
   return blogPosts.map(p => ({ slug: p.slug }));
 }
 
-type Props = { params: { slug: string } };
-
-export function generateMetadata({ params }: Props): Metadata {
-  const post = getPost(params.slug);
+export async function generateMetadata({ params }: AsyncProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPost(slug);
   if(!post) return { title: 'Post not found' };
   const keywords = [post.primaryKeyword, ...post.secondaryKeywords];
   return {
@@ -32,8 +35,9 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-export default function BlogPostPage({ params }: Props){
-  const post = getPost(params.slug);
+export default async function BlogPostPage({ params }: AsyncProps){
+  const { slug } = await params;
+  const post = getPost(slug);
   if(!post) return notFound();
   const { prev, next } = getAdjacent(post.slug);
   // Simple markdown-lite to JSX (only ## and ### headings)
@@ -41,7 +45,6 @@ export default function BlogPostPage({ params }: Props){
     if(block.startsWith('## ')) return <h2 key={i}>{block.replace(/^## /,'')}</h2>;
     if(block.startsWith('### ')) return <h3 key={i}>{block.replace(/^### /,'')}</h3>;
     if(/^\d+\./.test(block.trim())){
-      // ordered list detection
       const items = block.split(/\n/).map(l=> l.replace(/^\d+\.\s*/,'')).filter(Boolean);
       return <ol key={i}>{items.map((it,j)=><li key={j}>{it}</li>)}</ol>;
     }
@@ -54,7 +57,7 @@ export default function BlogPostPage({ params }: Props){
   });
   return (
     <>
-  <section className={`${styles.section} ${styles.postSection}`} aria-labelledby="post-title">
+      <section className={`${styles.section} ${styles.postSection}`} aria-labelledby="post-title">
         <div className={styles.inner}>
           <header className={styles.postHeader}>
             <p className={styles.postMeta}>{new Date(post.date).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})} · {post.readingMinutes} min read · {post.primaryKeyword}</p>
@@ -74,10 +77,14 @@ export default function BlogPostPage({ params }: Props){
           </footer>
         </div>
       </section>
-      <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{__html: JSON.stringify({
-        '@context':'https://schema.org', '@type':'Article', headline: post.title, datePublished: post.date,
-        keywords: [post.primaryKeyword, ...post.secondaryKeywords].join(', '), url:`${process.env.NEXT_PUBLIC_SITE_URL || ''}/blog/${post.slug}`
-      })}} />
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{__html: JSON.stringify({
+          '@context':'https://schema.org', '@type':'Article', headline: post.title, datePublished: post.date,
+          keywords: [post.primaryKeyword, ...post.secondaryKeywords].join(', '), url:`${process.env.NEXT_PUBLIC_SITE_URL || ''}/blog/${post.slug}`
+        })}}
+      />
     </>
   );
 }
