@@ -16,7 +16,15 @@ export const defaultOpenGraph = {
   description: 'Vibe Web Studio – bespoke websites, funnels & digital growth services.',
   url: SITE_URL,
   siteName: SITE_NAME,
-  type: 'website'
+  type: 'website',
+  images: [
+    {
+      url: SITE_URL + '/sharing.png',
+      width: 1200,
+      height: 630,
+      alt: SITE_NAME + ' – Websites, Funnels & Growth'
+    }
+  ]
 };
 
 export const organizationJsonLd = JSON.stringify({
@@ -28,7 +36,7 @@ export const organizationJsonLd = JSON.stringify({
   sameAs: [
     SITE_URL,
     'https://www.linkedin.com/',
-    'https://www.instagram.com/'
+  'https://www.instagram.com/vibe_web_studio/'
   ],
   slogan: 'Websites, funnels & growth that turn clicks into customers.'
 });

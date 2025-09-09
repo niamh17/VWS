@@ -14,8 +14,9 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe Web Studio',
-    description: 'Websites, funnels & digital growth.',
-    site: '@vibewebstudio'
+  description: 'Websites, funnels & digital growth.',
+  site: '@vibewebstudio',
+  images: [{ url: SITE_URL + '/sharing.png', alt: 'Vibe Web Studio – Websites & Funnels' }]
   },
   icons: {
     icon: [
@@ -35,6 +36,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#ffffff" />
+  {/* Preload critical fonts to prevent swap flash */}
+  <link rel="preload" as="font" href="/BubbleBobble-MVpLp.otf" type="font/otf" crossOrigin="anonymous" />
+  <link rel="preload" as="font" href="/clouds-well.otf" type="font/otf" crossOrigin="anonymous" />
         {/* Performance: preconnect & dns-prefetch for third-party origins */}
         <link rel="preconnect" href="https://unpkg.com" />
         <link rel="dns-prefetch" href="https://unpkg.com" />

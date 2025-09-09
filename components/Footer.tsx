@@ -91,7 +91,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className={`${styles.link} ${styles.socialLink}`} aria-label="Instagram" aria-disabled>
+                <a href="https://www.instagram.com/vibe_web_studio/" className={`${styles.link} ${styles.socialLink}`} aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                   <svg
                     className={styles.icon}
                     viewBox="0 0 24 24"

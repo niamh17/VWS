@@ -10,7 +10,7 @@ body { -webkit-font-smoothing: antialiased; }
 	src: url('/clouds-well.otf') format('opentype');
 	font-weight: 400;
 	font-style: normal;
-	font-display: swap;
+	font-display: block; /* block to avoid visible fallback swap on splash */
 }
 
 /* Bubble menu experimental font: BubbleBobble MVP (OTF placed in /public) */
@@ -19,7 +19,7 @@ body { -webkit-font-smoothing: antialiased; }
 	src: url('/BubbleBobble-MVpLp.otf') format('opentype');
 	font-weight: 400;
 	font-style: normal;
-	font-display: swap;
+	font-display: block;
 }
 
 /* Global design tokens */
@@ -31,8 +31,8 @@ body { -webkit-font-smoothing: antialiased; }
 	--color-accent: #ff4726; /* switched from purple to brand orange */
 	--color-tag-green: rgb(51, 212, 120);
 	--color-rating: #ffb400;
-	/* Prefer BubbleBobble for menu, fallback to previous CloudsWell */
-	--font-menu: 'BubbleBobble', 'CloudsWell', system-ui, sans-serif;
+	/* Restrict menu font stack to custom fonts to reduce flash of system fallback on splash */
+	--font-menu: 'BubbleBobble', 'CloudsWell';
 	--radius-sm: 6px;
 	--radius-md: 12px;
 	--radius-lg: 16px;
