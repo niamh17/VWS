@@ -1,5 +1,6 @@
 "use client";
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
 import styles from './page.module.css';
 import CalInlineSection from '../../components/CalInlineSection';
 import Footer from '../../components/Footer';
@@ -7,6 +8,7 @@ import Footer from '../../components/Footer';
 const Aurora = dynamic(() => import('../../components/Aurora'), { ssr: false });
 
 export default function ContactPage() {
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   return (
     <>
   <div className={`top-aurora-wrapper ${styles.contactAurora}`} aria-hidden="true">
@@ -44,10 +46,36 @@ export default function ContactPage() {
             <form
               name="contact"
               method="POST"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
+              action="/__forms.html"
               className={styles.form}
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if(status === 'submitting' || status === 'success') return;
+                setStatus('submitting');
+                try {
+                  const form = e.currentTarget as HTMLFormElement;
+                  const fd = new FormData(form);
+                  // Netlify requires form-name field when posting programmatically
+                  if(!fd.get('form-name')) fd.set('form-name', 'contact');
+                  const body = new URLSearchParams(fd as any).toString();
+                  const res = await fetch('/__forms.html', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body
+                  });
+                  if(res.ok){
+                    setStatus('success');
+                    form.reset();
+                  } else {
+                    throw new Error('Non-200 response');
+                  }
+                } catch(err){
+                  console.error('Form submission failed', err);
+                  setStatus('error');
+                }
+              }}
             >
+              <input type="hidden" name="form-name" value="contact" />
               <input type="hidden" name="form-name" value="contact" />
               <p className={styles.hidden}><label>Don’t fill this out: <input name="bot-field" /></label></p>
 
@@ -139,7 +167,18 @@ export default function ContactPage() {
               </div>
 
               <div className={styles.actions}>
-                <button className={styles.submitBtn} type="submit" aria-label="Send message">Send message</button>
+                <button
+                  className={styles.submitBtn}
+                  type="submit"
+                  aria-label="Send message"
+                  disabled={status === 'submitting' || status === 'success'}
+                >
+                  {status === 'submitting' ? 'Sending…' : status === 'success' ? 'Sent ✓' : 'Send message'}
+                </button>
+              </div>
+              <div aria-live="polite" className={styles.statusMsg}>
+                {status === 'error' && <p className={styles.error}>Something went wrong. Please retry.</p>}
+                {status === 'success' && <p className={styles.success}>Thanks—message received!</p>}
               </div>
             </form>
           </div>

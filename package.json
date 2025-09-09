@@ -7,8 +7,9 @@
   },
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+  "dev": "next dev",
+  "prebuild": "node scripts/check-netlify-forms.mjs",
+  "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
