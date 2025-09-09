@@ -5,6 +5,10 @@
 	command = "npm run build"
 	publish = ".next"
 
+# Explicitly pin Node.js version for Netlify build environment
+[build.environment]
+	NODE_VERSION = "20.11.1"
+
 [[plugins]]
 	package = "@netlify/plugin-nextjs"
 	# If you are NOT using Netlify Forms, keep the following comment.
