@@ -170,8 +170,8 @@ export default function PricingCalculator() {
                   </div>
                 </div>
               </div>
-              {/* Right column: Add-ons (Marketing & Brand) stacked where backend used to be */}
-              <div className={styles.colStack}>
+              {/* Right column: Add-ons (Marketing & Brand) */}
+              <div className={`${styles.colStack} ${styles.addonsCol}`}>
                 <div className={styles.field}>
                   <h5>Marketing add-ons</h5>
                   <div className={styles.toggleList}>
@@ -215,6 +215,53 @@ export default function PricingCalculator() {
                       );
                     })}
                   </div>
+                </div>
+              </div>
+            </div>
+            {/* Mobile-only: Add-ons appended at the end */}
+            <div className={styles.mobileAddons}>
+              <div className={styles.field}>
+                <h5>Marketing add-ons</h5>
+                <div className={styles.toggleList}>
+                  {otherOptions.filter(o=>o.id==='social-ads').map(opt => {
+                    const active = selected.has(opt.id);
+                    return (
+                      <label key={opt.id} className={styles.toggle}>
+                        <input type="checkbox" checked={active} onChange={()=>toggleOption(opt)} />
+                        <div>
+                          <p className={styles.toggleLabel}>{opt.label} <span style={{color:'#ff4726'}}>{active?`+$${opt.price}`:''}</span></p>
+                          <p className={styles.toggleDesc}>{opt.desc}</p>
+                          {active && (
+                            <div style={{marginTop:8}}>
+                              <p className={styles.toggleDesc} style={{marginBottom:6}}>Extra campaigns per month beyond 3 included:</p>
+                              <div className={styles.counter}>
+                                <button aria-label="Decrease extra campaigns" onClick={() => setExtraCampaigns(c => Math.max(0, c-1))}>-</button>
+                                <span>{extraCampaigns}</span>
+                                <button aria-label="Increase extra campaigns" onClick={() => setExtraCampaigns(c => c+1)}>+</button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className={styles.field}>
+                <h5>Brand & Identity add-ons</h5>
+                <div className={styles.toggleList}>
+                  {otherOptions.filter(o=>o.id==='brand-kits').map(opt => {
+                    const active = selected.has(opt.id);
+                    return (
+                      <label key={opt.id} className={styles.toggle}>
+                        <input type="checkbox" checked={active} onChange={()=>toggleOption(opt)} />
+                        <div>
+                          <p className={styles.toggleLabel}>{opt.label} <span style={{color:'#ff4726'}}>{active?`+$${opt.price}`:''}</span></p>
+                          <p className={styles.toggleDesc}>{opt.desc}</p>
+                        </div>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
             </div>

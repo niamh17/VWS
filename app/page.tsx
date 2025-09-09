@@ -1,17 +1,15 @@
 "use client";
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HeroSection from '../components/HeroSection';
 import LogoLoopSection from '../components/LogoLoopSection';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss} from 'react-icons/si';
 import AboutTeaser from '../components/AboutTeaser';
 import StatsSection from '../components/StatsSection';
 import HowItWorksSection from '../components/HowItWorksSection';
-import TestimonialSection from '../components/TestimonialSection';
 import ProjectsSection from '../components/ProjectsSection';
 import ServicesSection from '../components/ServicesSection';
 import PricingCalculator from '../components/PricingCalculator';
-import LoadingOverlay from '../components/ui/LoadingOverlay';
 import ProblemSection from '../components/ProblemSection';
 import SolutionSection from '../components/SolutionSection';
 import CalInlineSection from '../components/CalInlineSection';
@@ -33,7 +31,6 @@ export default function HomePage() {
   ];
   return (
     <>
-  <LoadingOverlay ready={auroraReady} minDurationMs={3600} />
       <div className="top-aurora-wrapper" aria-hidden="true">
         <Aurora
           colorStops={["#FFB871", "#FF6F32", "#FF3A14"]}
@@ -52,8 +49,7 @@ export default function HomePage() {
   <SolutionSection />
       <StatsSection />
   <HowItWorksSection />
-      <TestimonialSection />
-      <ServicesSection />
+  <ServicesSection description="" />
       <ProjectsSection />
   <PricingCalculator />
   <CalInlineSection />

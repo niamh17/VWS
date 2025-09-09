@@ -17,10 +17,10 @@ const schedule: Call[] = [
 ];
 
 const partners = [
-  'https://framerusercontent.com/images/w3uLbU7Y52vz44rYeU2HamRqrc.png',
-  'https://framerusercontent.com/images/8uKgxQ7sa2jpaYkxdGLD437X83Y.png',
-  'https://framerusercontent.com/images/vhrHZGDV6GHME64j4wHVwOSfb8.png',
-  'https://framerusercontent.com/images/hgIwkBgy2OmU0dw2HlRbV5QH4.png'
+  { src: 'https://randomuser.me/api/portraits/women/68.jpg', name: 'Ava' },
+  { src: 'https://randomuser.me/api/portraits/men/12.jpg', name: 'Liam' },
+  { src: 'https://randomuser.me/api/portraits/men/33.jpg', name: 'Noah' },
+  { src: 'https://randomuser.me/api/portraits/women/44.jpg', name: 'Mia' },
 ];
 
 const Star = () => (
@@ -52,9 +52,7 @@ const HeroSection: React.FC = () => {
                 <span>2x</span>
               </span>
               <br />
-              <span className={styles.lineTwo}>leads for</span>
-              <br />
-              <span className={styles.lineTwo}>startups &amp; agencies</span>
+              <span className={styles.lineTwo}>leads for startups</span>
             </h1>
           </div>
           <p className={styles.subtitle}>
@@ -84,8 +82,8 @@ const HeroSection: React.FC = () => {
             <div>
               <div className={styles.metaLabel}>Trusted partners</div>
               <div className={styles.partners}>
-                {partners.map(src => (
-                  <Image key={src} src={src} alt="Partner" width={40} height={40} className={styles.partnerAvatar} />
+                {partners.map(p => (
+                  <Image key={p.name} src={p.src} alt={`${p.name} logo`} width={40} height={40} className={styles.partnerAvatar} />
                 ))}
               </div>
             </div>

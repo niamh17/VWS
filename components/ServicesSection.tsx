@@ -80,25 +80,47 @@ const services: ServiceItem[] = [
   }
 ];
 
-const ServicesSection: React.FC = () => {
+type ServicesProps = {
+  tagText?: string;
+  subtitle?: string;
+  title?: string;
+  description?: string;
+  showHeader?: boolean;
+  theme?: 'dark' | 'light';
+  compact?: boolean;
+  spacedTop?: boolean;
+};
+
+const ServicesSection: React.FC<ServicesProps> = ({
+  tagText = 'services',
+  subtitle = 'How can we help',
+  title = 'Your business grow',
+  description = 'Achieving goals for businesses and entrepreneurs around the globe.',
+  showHeader = true,
+  theme = 'dark',
+  compact = false,
+  spacedTop = false
+}) => {
   const [openId, setOpenId] = useState<string>(services[0].id); // first open by default
   const toggle = useCallback((id: string) => {
     setOpenId(prev => (prev === id ? '' : id));
   }, []);
 
   return (
-    <section className={styles.section} id="services">
+  <section className={`${styles.section} ${theme === 'light' ? styles.light : ''} ${compact ? styles.compact : ''} ${spacedTop ? styles.spacedTop : ''}`} id="services">
       <div className={styles.contentContainer}>
-        <div className={styles.headline}>
-          <div className={styles.header}>
-            <div className={styles.tagWrapper}><div className={styles.tag}><p className={styles.tagText}>services</p></div></div>
-            <div className={styles.textContainer}>
-              <h2 className={styles.subtitle}>How can we help</h2>
-              <h2 className={styles.title}>Your business grow</h2>
+        {showHeader && (
+          <div className={styles.headline}>
+            <div className={styles.header}>
+              <div className={styles.tagWrapper}><div className={styles.tag}><p className={styles.tagText}>{tagText}</p></div></div>
+              <div className={styles.textContainer}>
+                {subtitle ? <h2 className={styles.subtitle}>{subtitle}</h2> : null}
+                {title ? <h2 className={styles.title}>{title}</h2> : null}
+              </div>
             </div>
+            {description ? <p className={styles.description}>{description}</p> : null}
           </div>
-          <p className={styles.description}>Achieving goals for businesses and entrepreneurs around the globe.</p>
-        </div>
+        )}
         <div className={styles.list}>
           {services.map((s) => {
             const open = openId === s.id;

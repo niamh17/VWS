@@ -15,7 +15,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, imageUrl,
       <div className={styles.card}>
         <div className={styles.imageContainer}>
           <div className={styles.imageWrapper}>
-            <img src={imageUrl} alt="Project Thumbnail" className={styles.projectImage} />
+            <img src={imageUrl} alt="Project Thumbnail" className={styles.projectImage} loading="lazy" decoding="async" />
           </div>
           <div className={styles.details}>
             <div className={styles.subHeading}>

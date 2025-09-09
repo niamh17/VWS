@@ -1,5 +1,14 @@
-.section { width:100%; display:flex; justify-content:center; background:var(--color-bg); padding:0 40px; box-sizing:border-box; border-bottom:1px dotted var(--color-border); }
+.section { width:100%; display:flex; justify-content:center; background:var(--color-bg); padding:0 40px; box-sizing:border-box; border-bottom:1px dotted var(--color-border); position:relative; }
+.topRail::before { content:""; position:absolute; left:0; right:0; top:0; border-top:1px dotted var(--color-border); }
+.topRail .inner { padding-top: calc(2rem + 12px); }
 .inner { width:100%; max-width:1120px; margin:0 auto; padding:2rem 56px 1.5rem; display:grid; grid-template-columns:repeat(12,1fr); gap:20px 56px; border-left:1px dotted var(--color-border); border-right:1px dotted var(--color-border); box-sizing:border-box; }
 .title { grid-column:1 / span 12; font-size:14px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--color-text); opacity:.7; text-align:center; margin:0 0 12px; }
 .loop { grid-column:1 / span 12; display:flex; justify-content:center; }
+.loopViewport { height:120px; position:relative; overflow:hidden; color:#1c1c1c; }
 @media (max-width:1080px){ .inner{ border:none; padding:1.5rem 32px 1.25rem; } }
+@media (max-width:640px){
+	.section { padding:0 16px; }
+	.inner { padding:1.25rem 0 1rem; gap:14px 24px; }
+	.loopViewport { height:92px; }
+	.title { font-size:14px; margin-bottom:14px; }
+}

@@ -98,11 +98,47 @@
   .ratingCard { grid-row:auto; grid-column:1 / span 2; }
   .subtitle,.title { font-size:clamp(1.9rem,7vw,3.2rem); }
 }
-@media (max-width:520px){
-  .cardsGrid { grid-template-columns:1fr; }
+/* Mobile-first stacking and spacing to match screenshot */
+@media (max-width:640px){
+  .statsSection { padding:0 20px; padding-left:calc(20px + env(safe-area-inset-left)); padding-right:calc(20px + env(safe-area-inset-right)); overflow-x:hidden; }
+  .inner { padding:2.4rem 16px 2.2rem; gap:24px; }
+  .headlineAside { font-size:1rem; line-height:1.5; }
+
+  .cardsGrid {
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "roi"
+      "partners"
+      "revenue"
+      "availability"
+      "rating";
+    gap:20px;
+  }
+  /* Ensure full-width single-column and explicit order */
+  .roiCard { grid-area: roi; grid-column:1 / -1; grid-row:auto; }
+  .partnersCard { grid-area: partners; grid-column:1 / -1; grid-row:auto; }
+  .revenueCard { grid-area: revenue; grid-column:1 / -1; grid-row:auto; }
+  .availabilityCard { grid-area: availability; grid-column:1 / -1; grid-row:auto; }
+  .ratingCard { grid-area: rating; grid-column:1 / -1; grid-row:auto; }
+
+  /* Card aesthetics */
+  .card { border-radius:22px; padding:1.3rem 1.2rem 1.4rem; }
+  .ratingCard { padding:1.6rem 1.4rem 1.8rem; }
+
+  /* Type scale tweaks */
+  .statValue { font-size:3rem; }
+  .ratingStat { font-size:3.3rem; }
+  .partnersAnim { height:72px; }
   .avatarRing { width:40px; height:40px; }
-  .statValue { font-size:3.1rem; }
-  .ratingStat { font-size:3.4rem; }
+}
+
+@media (max-width:520px){
+  .inner { padding:2.2rem 14px 2rem; gap:22px; }
+  .cardsGrid { gap:18px; }
+  .card { border-radius:20px; padding:1.2rem 1.05rem 1.3rem; }
+  .ratingCard { padding:1.45rem 1.15rem 1.6rem; }
+  .statValue { font-size:2.8rem; }
+  .ratingStat { font-size:3.1rem; }
 }
 
 @media (prefers-reduced-motion: reduce){

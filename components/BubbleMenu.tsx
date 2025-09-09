@@ -2,6 +2,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
+import Link from "next/link";
 
 import "./BubbleMenu.css";
 
@@ -36,11 +37,11 @@ export type BubbleMenuProps = {
 };
 
 const DEFAULT_ITEMS: MenuItem[] = [
-  { label: "home", href: "#", ariaLabel: "Home", rotation: -8, hoverStyles: { bgColor: "#3b82f6", textColor: "#ffffff" } },
-  { label: "about", href: "#", ariaLabel: "About", rotation: 8, hoverStyles: { bgColor: "#10b981", textColor: "#ffffff" } },
-  { label: "projects", href: "#", ariaLabel: "Documentation", rotation: 8, hoverStyles: { bgColor: "#f59e0b", textColor: "#ffffff" } },
-  { label: "blog", href: "#", ariaLabel: "Blog", rotation: 8, hoverStyles: { bgColor: "#ef4444", textColor: "#ffffff" } },
-  { label: "contact", href: "#", ariaLabel: "Contact", rotation: -8, hoverStyles: { bgColor: "#ff4726", textColor: "#ffffff" } }
+  { label: "home", href: "/", ariaLabel: "Home", rotation: -8, hoverStyles: { bgColor: "#3b82f6", textColor: "#ffffff" } },
+  { label: "about", href: "/about", ariaLabel: "About", rotation: 8, hoverStyles: { bgColor: "#10b981", textColor: "#ffffff" } },
+  { label: "websites", href: "/websites", ariaLabel: "Websites", rotation: 8, hoverStyles: { bgColor: "#6366f1", textColor: "#ffffff" } },
+  { label: "blog", href: "/blog", ariaLabel: "Blog", rotation: 8, hoverStyles: { bgColor: "#ef4444", textColor: "#ffffff" } },
+  { label: "contact", href: "/contact", ariaLabel: "Contact", rotation: -8, hoverStyles: { bgColor: "#ff4726", textColor: "#ffffff" } }
 ];
 
 // Simple shade utility: darken (positive factor) or lighten (negative) a hex color
@@ -187,11 +188,7 @@ export default function BubbleMenu({
         aria-label="Main navigation"
       >
         {!hideLogo && (
-          <div
-            className="bubble logo-bubble"
-            aria-label="Logo"
-            style={{ background: menuBg }}
-          >
+          <Link href="/" aria-label="Go to homepage" className="bubble logo-bubble" style={{ background: menuBg }}>
             <span className="logo-content">
               {typeof logo === "string" ? (
                 <img src={logo} alt="Logo" className="bubble-logo" />
@@ -199,7 +196,7 @@ export default function BubbleMenu({
                 logo
               )}
             </span>
-          </div>
+          </Link>
         )}
 
         <button
@@ -242,7 +239,7 @@ export default function BubbleMenu({
           <ul className="pill-list" role="menu" aria-label="Menu links">
             {menuItems.map((item, idx) => (
               <li key={idx} role="none" className="pill-col">
-                <a
+                <Link
                   role="menuitem"
                   href={item.href}
                   aria-label={item.ariaLabel || item.label}
@@ -257,6 +254,7 @@ export default function BubbleMenu({
                         item.hoverStyles?.textColor || menuContentColor,
                     } as CSSProperties
                   }
+                  onClick={() => setIsMenuOpen(false)}
                   ref={(el) => {
                     if (el) bubblesRef.current[idx] = el;
                   }}
@@ -269,7 +267,7 @@ export default function BubbleMenu({
                   >
                     {item.label}
                   </span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

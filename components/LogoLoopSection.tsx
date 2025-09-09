@@ -6,15 +6,16 @@ import LogoLoop, { LogoItem } from './LogoLoop';
 type Props = {
   logos: LogoItem[];
   title?: string;
+  withTopRail?: boolean;
 };
 
-const LogoLoopSection: React.FC<Props> = ({ logos, title = 'Technology partners' }) => {
+const LogoLoopSection: React.FC<Props> = ({ logos, title = 'Technology partners', withTopRail }) => {
   return (
-    <section className={styles.section} aria-label={title}>
+    <section className={`${styles.section} ${withTopRail ? styles.topRail : ''}`} aria-label={title}>
       <div className={styles.inner}>
         <div className={styles.title}>{title}</div>
         <div className={styles.loop}>
-          <div style={{ height: 120, position: 'relative', overflow: 'hidden', color: '#1c1c1c' }}>
+          <div className={styles.loopViewport}>
             <LogoLoop
               logos={logos}
               speed={120}

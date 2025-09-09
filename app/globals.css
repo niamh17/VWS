@@ -50,6 +50,12 @@ body.splash-active { overflow:hidden; }
 /* Soft fade so shortened aurora blends into page background */
 .top-aurora-wrapper::after { content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(255,255,255,0) 60%, var(--color-bg) 100%); pointer-events:none; }
 
+/* Ensure full-bleed aurora width on small screens */
+@media (max-width: 640px) {
+	/* Avoid 100vw to prevent mobile horizontal scrollbars; keep full-bleed */
+	.top-aurora-wrapper { left: 0; width: 100%; transform: none; height: clamp(320px, 52vh, 520px); }
+}
+
 /* Visually hidden (screen-reader only) utility */
 .sr-only {
 	position: absolute;

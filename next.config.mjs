@@ -2,7 +2,8 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: 'framerusercontent.com' }
+  { protocol: 'https', hostname: 'framerusercontent.com' },
+  { protocol: 'https', hostname: 'randomuser.me' }
     ]
   }
 };

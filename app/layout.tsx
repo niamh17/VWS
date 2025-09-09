@@ -1,6 +1,8 @@
 import './globals.css';
 import type { ReactNode } from 'react';
 import BubbleMenu from '../components/BubbleMenu';
+import InitialVisit from '../components/InitialVisit';
+import WelcomeOverlayGate from '../components/ui/WelcomeOverlayGate';
 
 export const metadata = {
   // Updated branding: only title & favicon per request
@@ -26,6 +28,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   <link rel="mask-icon" href="/favicon.svg" color="#ff4726" />
       </head>
       <body>
+  <InitialVisit />
+  {/* Global welcome overlay shown once per browser session (new visit) */}
+  <WelcomeOverlayGate minDurationMs={1800} />
         {/* Site-wide navigation: moved out of HeroSection so overlay isn't clipped by hero overflow/transform */}
         <BubbleMenu
           useFixedPosition
@@ -37,13 +42,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           toggleBubbleBg="#ff4726"
           toggleColor="#000000"
           items={[
-            { label: 'Home', href: '#home', ariaLabel: 'Home', rotation: -8, hoverStyles: { bgColor: '#ff663a', textColor: '#000000' } },
-            { label: 'Websites', href: '#websites', ariaLabel: 'Websites', rotation: 6, hoverStyles: { bgColor: '#ff5a2d', textColor: '#000000' } },
-            { label: 'Digital Services', href: '#digital-services', ariaLabel: 'Digital Services', rotation: 6, hoverStyles: { bgColor: '#ff4f22', textColor: '#000000' } },
-            { label: 'Funnels', href: '#funnels', ariaLabel: 'Funnels', rotation: 8, hoverStyles: { bgColor: '#ff4726', textColor: '#000000' } },
-            { label: 'About', href: '#about', ariaLabel: 'About', rotation: -6, hoverStyles: { bgColor: '#f53e1d', textColor: '#000000' } },
-            { label: 'Blog', href: '#blog', ariaLabel: 'Blog', rotation: 6, hoverStyles: { bgColor: '#e83819', textColor: '#000000' } },
-            { label: 'Contact', href: '#contact', ariaLabel: 'Contact', rotation: -8, hoverStyles: { bgColor: '#d73215', textColor: '#000000' } }
+            { label: 'Home', href: '/', ariaLabel: 'Home', rotation: -8, hoverStyles: { bgColor: '#ff663a', textColor: '#000000' } },
+            { label: 'Websites', href: '/websites', ariaLabel: 'Websites', rotation: 6, hoverStyles: { bgColor: '#ff5a2d', textColor: '#000000' } },
+            { label: 'Contact', href: '/contact', ariaLabel: 'Contact', rotation: 6, hoverStyles: { bgColor: '#ff4f22', textColor: '#000000' } },
+            { label: 'Funnels', href: '/funnels', ariaLabel: 'Funnels', rotation: 8, hoverStyles: { bgColor: '#ff4726', textColor: '#000000' } },
+            { label: 'About', href: '/about', ariaLabel: 'About', rotation: -6, hoverStyles: { bgColor: '#f53e1d', textColor: '#000000' } },
+            { label: 'Blog', href: '/blog', ariaLabel: 'Blog', rotation: 6, hoverStyles: { bgColor: '#e83819', textColor: '#000000' } },
           ]}
           animationEase="back.out(1.5)"
           animationDuration={0.5}

@@ -29,13 +29,15 @@
   .heroShiftLeft .heroRoot { transform:translateX(-24px); }
 }
 @media (max-width:1080px){
-  .heroShiftLeft .heroRoot { transform:none; }
+  .heroRoot { padding: 120px 0 48px; justify-content:center; min-height: min(720px, calc(100vh - 24px)); transform: translateX(2px); }
 }
 
 /* Aligned variant (smaller shift to match other sections) */
 .heroAligned .heroRoot { transform:translateX(-16px); }
 @media (max-width:1280px){
   .heroAligned .heroRoot { transform:translateX(-12px); }
+  /* Ensure CTA button group stays centered relative to viewport */
+  .buttons { margin-left:auto; margin-right:auto; }
 }
 @media (max-width:1080px){
   .heroAligned .heroRoot { transform:none; }
@@ -57,8 +59,20 @@
 }
 
 @media (max-width: 1080px) {
-  .heroRoot { flex-direction: column; padding: 80px 32px 120px; min-height:auto; border-left:none; border-right:none; }
+  .heroRoot { flex-direction: column; padding: 72px 24px 96px; min-height:auto; border-left:none; border-right:none; }
   .scheduleColumn {display:none;}
+}
+@media (max-width: 640px) {
+  /* Respect iOS safe areas and tighten horizontal padding on phones */
+  .heroOuter { padding: 0 max(16px, env(safe-area-inset-left)) 0 max(16px, env(safe-area-inset-right)); max-width:100%; overflow-x:hidden; }
+  /* Extra top gap so text isn't too close to the logo/menu on mobile; trim bottom to avoid huge empty space */
+  /* Center the flex-based heading rows on mobile */
+  .heroHeading { justify-content: center; margin-left:auto; margin-right:auto; }
+  .heroRoot { padding: 120px 0 48px; justify-content:center; min-height: min(720px, calc(100vh - 24px)); }
+  /* Center the content column and limit width for tidy mobile layout */
+  .leftCol { width:100%; max-width: 520px; margin: 0 auto; }
+  .headingBlock { margin-top: 12px; text-align:center; }
+  .subtitle { text-align:center; margin-left:auto; margin-right:auto; }
 }
 
 .leftCol {
@@ -108,8 +122,13 @@
 
 /* Tighter scaling on smaller screens */
 @media (max-width: 640px) {
-  .heroHeading { font-size: clamp(2.1rem,8.2vw,3.2rem); line-height:.96; }
-  .subtitle { font-size:16px; }
+  .heroHeading { font-size: clamp(2.2rem,7.8vw,3rem); line-height:.92; column-gap:8px; row-gap:2px; font-weight:700; }
+  /* Allow natural wrapping on small screens so long phrases don't overflow */
+  .lineOne, .lineTwo { white-space:normal; }
+  /* Scale down the floating trend icon so it fits the line height */
+  .trendIconInline { width:52px; height:52px; flex-basis:52px; }
+  .trendSvg { width:30px; height:30px; }
+  .subtitle { font-size:15px; max-width: 100%; }
 }
 
 /* Aurora background layer */
@@ -117,9 +136,9 @@
 /* Lift content above aurora */
 .heroRoot > * { position:relative; z-index:1; }
 
-.subtitle { margin:28px 0 48px; font-size:16px; line-height:1.45; color: var(--color-muted); max-width:520px; font-weight:500; }
+.subtitle { margin:24px 0 44px; font-size:16px; line-height:1.45; color: var(--color-muted); max-width:520px; font-weight:500; }
 
-.buttons { display:flex; gap:20px; }
+.buttons { display:flex; gap:20px; flex-wrap:nowrap; }
 .primaryBtn, .secondaryBtn { position:relative; border-radius: var(--radius-md); font-size:15px; font-weight:600; line-height:1; padding:15px 26px; text-decoration:none; display:inline-flex; align-items:center; gap:12px; will-change:background-color; }
 .primaryBtn { background:#1c1c1c; color:#f5f5f5; box-shadow: var(--shadow-btn-inner), var(--shadow-btn); border:0; transition:background .42s cubic-bezier(.65,.05,.36,1); }
 .primaryBtn:hover { background:var(--color-accent); }
@@ -140,13 +159,34 @@
 .secIcon { width:12px; height:12px; border-radius:4px; background:var(--color-text); flex:none; transition:background .35s ease; }
 .secondaryBtn:hover .secIcon { background:var(--color-accent); }
 
-.metaRow { display:flex; align-items:center; gap:40px; margin-top:64px; flex-wrap:wrap; }
+/* Buttons wrap on narrow phones and stack at very small widths */
+@media (max-width: 560px) {
+  /* Center the button group and stack; constrain width to avoid overflow */
+  .buttons { width:100%; flex-wrap: nowrap; flex-direction: column; row-gap:12px; justify-content:center; align-items:center; }
+  .primaryBtn, .secondaryBtn { width:min(360px, 82%); justify-content:center; box-sizing:border-box; }
+}
+@media (max-width: 420px) {
+  .primaryBtn, .secondaryBtn { width:80%; }
+}
+
+.metaRow { display:flex; align-items:center; gap:40px; margin-top:56px; flex-wrap:wrap; }
 .partners { display:flex; align-items:center; gap:8px; }
 .partnerAvatar { width:36px; height:36px; border-radius:50%; object-fit:cover; box-shadow: 0 3px 10px -4px rgba(0,0,0,0.22); border:2px solid #fff; }
 .dividerV { width:1px; height:28px; background: var(--color-border); }
 .starsRow { display:flex; align-items:center; gap:8px; }
 .starIcon { width:24px; height:24px; color:var(--color-rating); }
 .metaLabel { font-size:9px; font-weight:600; letter-spacing:.11em; text-transform:uppercase; color: var(--color-muted); margin-bottom:4px; }
+
+@media (max-width: 640px) {
+  .metaRow { gap:28px; margin-top:64px; justify-content:center; text-align:center; width:100%; }
+  .partners { justify-content:center; width:100%; }
+}
+@media (max-width: 560px) {
+  .metaRow { gap:28px; }
+  .partnerAvatar { width:32px; height:32px; }
+  .dividerV { display:none; }
+  .starIcon { width:22px; height:22px; }
+}
 
 /* Schedule column */
 .scheduleColumn { width:320px; flex:0 0 320px; position: relative; }

@@ -3,11 +3,13 @@ import Script from "next/script";
 import React from "react";
 import styles from "./CalInlineSection.module.css";
 
-export default function CalInlineSection() {
+type Props = { fullWidth?: boolean };
+
+export default function CalInlineSection({ fullWidth = false }: Props) {
   return (
     <section className={styles.section} id="book">
-      <div className={styles.container}>
-        <div className={styles.inner}>
+      <div className={`${styles.container} ${fullWidth ? styles.fullWidth : ""}`}>
+        <div className={`${styles.inner} ${fullWidth ? styles.innerFull : ""}`}>
           <h2 className={styles.title}>Book a 15‑minute intro</h2>
           <p className={styles.subtitle}>Pick a time that works for you. No pressure—just a quick chat about your goals.</p>
           <div className={styles.embedCard}>

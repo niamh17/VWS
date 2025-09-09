@@ -7,7 +7,7 @@ const featured = {
   name: 'Maya Lennox',
   company: 'Colish',
   avatar: 'https://framerusercontent.com/images/7E6dhqT7tFSsdAd7Cb7r4uz5zQ.png',
-  quote: 'Funnelz unlocked growth opportunities we didn’t even know were possible - we wish we went with them sooner!',
+  quote: 'VWS unlocked growth opportunities we didn’t even know were possible - we wish we went with them sooner!',
   rating: 5
 };
 
@@ -22,7 +22,7 @@ const secondary = [
     name: 'Aliyah Hassan',
     company: 'Hydrox',
     avatar: 'https://framerusercontent.com/images/XyDEk97IVtnsjY1hCEvEgMs1WXg.jpg',
-    quote: 'Funnelz made our ad strategy crystal clear and focused on what truly mattered.'
+  quote: 'VWS made our ad strategy crystal clear and focused on what truly mattered.'
   }
 ];
 

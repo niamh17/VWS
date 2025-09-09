@@ -24,3 +24,35 @@
   .inner { border-left:none; border-right:none; padding:2.5rem 32px 2.25rem; }
   .cards { grid-template-columns:1fr; }
 }
+
+/* Mobile refinements */
+@media (max-width:640px){
+  .section { padding:0 20px; overflow-x:hidden; }
+  .inner { padding:2.25rem 16px 2rem; gap:20px 24px; }
+
+  .tag { padding:6px 14px 7px; }
+  .tagText { font-size:11px; letter-spacing:.14em; }
+
+  .headline h2 { font-size:clamp(1.85rem,6.2vw,2.2rem); line-height:1.12; }
+  .lede { font-size:1rem; line-height:1.52; max-width:60ch; }
+
+  .cards { gap:18px; }
+  .card { border-radius:20px; padding:1.25rem 1.25rem 1.4rem; }
+  .cardHead { gap:.6rem; }
+  .iconBox { width:48px; height:48px; border-radius:14px; }
+  .icon { width:30px; height:30px; }
+  .cardTitle { font-size:clamp(1.15rem,4.4vw,1.45rem); }
+  .cardBody { font-size:1rem; line-height:1.6; }
+
+  /* Safe-area padding for notched devices */
+  .section { padding-left:calc(20px + env(safe-area-inset-left)); padding-right:calc(20px + env(safe-area-inset-right)); }
+}
+
+@media (max-width:420px){
+  .section { padding:0 16px; padding-left:calc(16px + env(safe-area-inset-left)); padding-right:calc(16px + env(safe-area-inset-right)); }
+  .inner { padding:2rem 12px 1.75rem; gap:18px 20px; }
+
+  .iconBox { width:44px; height:44px; border-radius:12px; }
+  .icon { width:28px; height:28px; }
+  .card { padding:1.15rem 1rem 1.25rem; border-radius:18px; }
+}
