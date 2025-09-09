@@ -1,0 +1,16 @@
+# Netlify configuration for Next.js site
+# Added to satisfy @netlify/plugin-nextjs v5 migration (forms handling) and ensure build context.
+
+[build]
+	command = "npm run build"
+	publish = ".next"
+
+[[plugins]]
+	package = "@netlify/plugin-nextjs"
+	# If you are NOT using Netlify Forms, keep the following comment.
+	# If forms still cause errors, we can add an input flag once required by plugin.
+
+[dev]
+	command = "npm run dev"
+
+# Optional: add future contexts or environment variables here.
