@@ -58,16 +58,44 @@ export default function ContactPage() {
                   // Netlify requires form-name field when posting programmatically
                   if(!fd.get('form-name')) fd.set('form-name', 'contact');
                   const body = new URLSearchParams(fd as any).toString();
-                  const res = await fetch('/__forms.html', {
+                  // Prepare JSON payload for external webhook
+                  const jsonPayload: Record<string,string> = {};
+                  fd.forEach((value, key) => { if(key !== 'form-name') jsonPayload[key] = String(value); });
+                  // Webhook URL (can be moved to env var like NEXT_PUBLIC_CONTACT_WEBHOOK)
+                  const webhookUrl = 'https://hook.eu2.make.com/o4uqi50d4iug0dfjri3gy31abanthuon';
+                  // Fire both requests in parallel. Netlify static form POST may 404/405 in local dev; treat that as non-fatal.
+                  const netlifyPromise = fetch('/__forms.html', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body
-                  });
-                  if(res.ok){
+                  }).then(r => ({ target: 'netlify', ok: r.ok, status: r.status }))
+                    .catch(err => ({ target: 'netlify', ok: false, error: err }));
+
+                  const webhookPromise = fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      form: 'contact',
+                      submittedAt: new Date().toISOString(),
+                      ...jsonPayload
+                    })
+                  }).then(r => ({ target: 'webhook', ok: r.ok, status: r.status }))
+                    .catch(err => ({ target: 'webhook', ok: false, error: err }));
+
+                  const [netlifyResult, webhookResult] = await Promise.all([netlifyPromise, webhookPromise]);
+
+                  // Determine if we should consider this a success.
+                  // Success criteria: webhook succeeded (primary delivery). Netlify submission is best-effort.
+                  if(webhookResult.ok){
+                    if(!netlifyResult.ok){
+                      const statusInfo = 'status' in netlifyResult ? `status: ${netlifyResult.status}` : 'no status';
+                      console.info('[contact] Webhook OK but Netlify form POST did not succeed ('+statusInfo+'). This can be normal in local dev.');
+                    }
                     setStatus('success');
                     form.reset();
                   } else {
-                    throw new Error('Non-200 response');
+                    console.error('[contact] Webhook failed', webhookResult);
+                    throw new Error('Webhook submission failed');
                   }
                 } catch(err){
                   console.error('Form submission failed', err);
@@ -75,7 +103,6 @@ export default function ContactPage() {
                 }
               }}
             >
-              <input type="hidden" name="form-name" value="contact" />
               <input type="hidden" name="form-name" value="contact" />
               <p className={styles.hidden}><label>Don’t fill this out: <input name="bot-field" /></label></p>
 

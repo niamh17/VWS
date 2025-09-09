@@ -1,19 +1,21 @@
 "use client";
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+// Above-the-fold components remain eagerly loaded
 import HeroSection from '../components/HeroSection';
 import LogoLoopSection from '../components/LogoLoopSection';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss} from 'react-icons/si';
 import AboutTeaser from '../components/AboutTeaser';
-import StatsSection from '../components/StatsSection';
-import HowItWorksSection from '../components/HowItWorksSection';
-import ProjectsSection from '../components/ProjectsSection';
-import ServicesSection from '../components/ServicesSection';
-import PricingCalculator from '../components/PricingCalculator';
 import ProblemSection from '../components/ProblemSection';
 import SolutionSection from '../components/SolutionSection';
-import CalInlineSection from '../components/CalInlineSection';
 import Footer from '../components/Footer';
+
+// Below-the-fold components are lazy loaded to reduce initial JS
+const StatsSection = dynamic(() => import('../components/StatsSection'), { ssr: true });
+const HowItWorksSection = dynamic(() => import('../components/HowItWorksSection'), { ssr: true });
+const ServicesSection = dynamic(() => import('../components/ServicesSection'), { ssr: true });
+const PricingCalculator = dynamic(() => import('../components/PricingCalculator'), { ssr: true, loading: () => null });
+const CalInlineSection = dynamic(() => import('../components/CalInlineSection'), { ssr: true, loading: () => null });
 
 // Dynamic import to avoid SSR issues with WebGL in Aurora
 const Aurora = dynamic(() => import('../components/Aurora'), { ssr: false });
@@ -48,11 +50,10 @@ export default function HomePage() {
   <ProblemSection />
   <SolutionSection />
       <StatsSection />
-  <HowItWorksSection />
-  <ServicesSection description="" />
-      <ProjectsSection />
-  <PricingCalculator />
-  <CalInlineSection />
+      <HowItWorksSection />
+      <ServicesSection description="" />
+      <PricingCalculator />
+      <CalInlineSection />
   {/* Smart Steps section removed */}
   <Footer />
     </>

@@ -3,11 +3,20 @@ import type { ReactNode } from 'react';
 import BubbleMenu from '../components/BubbleMenu';
 import InitialVisit from '../components/InitialVisit';
 import WelcomeOverlayGate from '../components/ui/WelcomeOverlayGate';
+import { TARGET_KEYWORDS, SITE_URL, defaultOpenGraph, organizationJsonLd } from '../lib/seo';
 
 export const metadata = {
-  // Updated branding: only title & favicon per request
   title: 'Vibe Web Studio',
   description: 'Vibe Web Studio – bespoke websites, funnels & digital growth services.',
+  keywords: TARGET_KEYWORDS,
+  alternates: { canonical: SITE_URL },
+  openGraph: defaultOpenGraph,
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Vibe Web Studio',
+    description: 'Websites, funnels & digital growth.',
+    site: '@vibewebstudio'
+  },
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
@@ -24,8 +33,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
   <html lang="en">
       <head>
+        {/* Performance: preconnect & dns-prefetch for third-party origins */}
+        <link rel="preconnect" href="https://unpkg.com" />
+        <link rel="dns-prefetch" href="https://unpkg.com" />
+        <link rel="preconnect" href="https://hook.eu2.make.com" />
+        <link rel="dns-prefetch" href="https://hook.eu2.make.com" />
+        {/* Preload brand asset */}
+        <link rel="preload" as="image" href="/logo.png" />
         <script defer src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
-  <link rel="mask-icon" href="/favicon.svg" color="#ff4726" />
+        <link rel="mask-icon" href="/favicon.svg" color="#ff4726" />
+        {/* Basic structured data */}
+        <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: organizationJsonLd }} />
+        {/* Robots fallback meta (complements /robots route) */}
+        <meta name="robots" content="index,follow" />
+        <meta name="googlebot" content="index,follow" />
       </head>
       <body>
   <InitialVisit />
