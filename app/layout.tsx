@@ -33,6 +33,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
   <html lang="en">
       <head>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#ffffff" />
         {/* Performance: preconnect & dns-prefetch for third-party origins */}
         <link rel="preconnect" href="https://unpkg.com" />
         <link rel="dns-prefetch" href="https://unpkg.com" />

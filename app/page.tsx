@@ -17,8 +17,6 @@ const ServicesSection = dynamic(() => import('../components/ServicesSection'), {
 const PricingCalculator = dynamic(() => import('../components/PricingCalculator'), { ssr: true, loading: () => null });
 const CalInlineSection = dynamic(() => import('../components/CalInlineSection'), { ssr: true, loading: () => null });
 
-// Dynamic import to avoid SSR issues with WebGL in Aurora
-const Aurora = dynamic(() => import('../components/Aurora'), { ssr: false });
 
 export default function HomePage() {
   const [auroraReady, setAuroraReady] = useState(false);
@@ -33,17 +31,7 @@ export default function HomePage() {
   ];
   return (
     <>
-      <div className="top-aurora-wrapper" aria-hidden="true">
-        <Aurora
-          colorStops={["#FFB871", "#FF6F32", "#FF3A14"]}
-          amplitude={0.9}
-          blend={0.5}
-          speed={0.5}
-          fps={40}
-          maxDpr={1.1}
-          onReady={() => setAuroraReady(true)}
-        />
-      </div>
+  {/* Aurora now embedded directly in HeroSection for reliability */}
       <HeroSection />
   <LogoLoopSection logos={techLogos} title="Technology partners" />
   <AboutTeaser />

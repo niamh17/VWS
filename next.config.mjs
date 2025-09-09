@@ -5,9 +5,10 @@ import path from 'path';
 const nextConfig = /** @type {import('next').NextConfig} */ ({
   outputFileTracingRoot: path.join(process.cwd()),
   images: {
+    // Added explicit pathname globs; production may drop images if pathname is omitted
     remotePatterns: [
-      { protocol: 'https', hostname: 'framerusercontent.com' },
-      { protocol: 'https', hostname: 'randomuser.me' }
+      { protocol: 'https', hostname: 'framerusercontent.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'randomuser.me', pathname: '/**' }
     ]
   }
 });

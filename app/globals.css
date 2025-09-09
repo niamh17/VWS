@@ -1,11 +1,22 @@
 html,body { margin:0; padding:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif; }
-body { -webkit-font-smoothing: antialiased; overflow-x:hidden; }
+/* Stronger horizontal scroll lock (covers cases where a child sets width > 100% or uses negative translate) */
+html,body { overflow-x:hidden; width:100%; }
+body { -webkit-font-smoothing: antialiased; }
 .framer-text { font-family: inherit; }
 
 /* Custom menu font: Clouds Well (OTF placed in /public) */
 @font-face {
 	font-family: 'CloudsWell';
 	src: url('/clouds-well.otf') format('opentype');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Bubble menu experimental font: BubbleBobble MVP (OTF placed in /public) */
+@font-face {
+	font-family: 'BubbleBobble';
+	src: url('/BubbleBobble-MVpLp.otf') format('opentype');
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
@@ -20,7 +31,8 @@ body { -webkit-font-smoothing: antialiased; overflow-x:hidden; }
 	--color-accent: #ff4726; /* switched from purple to brand orange */
 	--color-tag-green: rgb(51, 212, 120);
 	--color-rating: #ffb400;
-	--font-menu: 'CloudsWell', system-ui, sans-serif;
+	/* Prefer BubbleBobble for menu, fallback to previous CloudsWell */
+	--font-menu: 'BubbleBobble', 'CloudsWell', system-ui, sans-serif;
 	--radius-sm: 6px;
 	--radius-md: 12px;
 	--radius-lg: 16px;
@@ -41,6 +53,14 @@ body.hide-default-cursor, body.hide-default-cursor * { cursor: none !important; 
 
 body { position:relative; }
 
+/* Utility: wrap any wide sections to ensure no accidental horizontal scroll */
+.no-horizontal-overflow, #__next, body > div { max-width:100%; overflow-x:hidden; }
+
+/* iOS momentum side bounce guard */
+@supports (-webkit-overflow-scrolling: touch) {
+	body { overscroll-behavior-x: none; }
+}
+
 /* Prevent scroll flash while splash visible (JS can add .splash-active to body if desired) */
 body.splash-active { overflow:hidden; }
 
@@ -49,6 +69,11 @@ body.splash-active { overflow:hidden; }
 .top-aurora-wrapper .aurora-layer { width:100%; height:100%; }
 /* Soft fade so shortened aurora blends into page background */
 .top-aurora-wrapper::after { content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(255,255,255,0) 60%, var(--color-bg) 100%); pointer-events:none; }
+
+/* Aurora embedded specifically within hero section (above page background but beneath hero content) */
+.heroAurora { position:absolute; inset:0 0 auto 0; top:0; height:clamp(420px,62vh,640px); pointer-events:none; z-index:0; overflow:hidden; }
+.heroAurora .aurora-layer { width:100%; height:100%; }
+.heroAurora::after { content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(255,255,255,0) 58%, var(--color-bg) 100%); pointer-events:none; }
 
 /* Ensure full-bleed aurora width on small screens */
 @media (max-width: 640px) {

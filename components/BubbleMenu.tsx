@@ -220,8 +220,10 @@ export default function BubbleMenu({
             const lineColor = '#ff4726';
             return (
               <>
+                {/* 3-line hamburger (was 2 lines) */}
                 <span className="menu-line" style={{ background: lineColor }} />
-                <span className="menu-line short" style={{ background: lineColor }} />
+                <span className="menu-line" style={{ background: lineColor }} />
+                <span className="menu-line" style={{ background: lineColor }} />
               </>
             );
           })()}

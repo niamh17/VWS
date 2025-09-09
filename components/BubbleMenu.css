@@ -35,17 +35,20 @@
 .bubble-menu .logo-content { --logo-max-height:85%; --logo-max-width:85%; display:flex; align-items:center; justify-content:center; width:88px; height:100%; margin:0 auto; }
 .bubble-menu .logo-content>.bubble-logo, .bubble-menu .logo-content>img, .bubble-menu .logo-content>svg { max-height:var(--logo-max-height); max-width:var(--logo-max-width); }
 .bubble-menu .menu-btn { border:none; background:transparent; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0; }
-.bubble-menu .menu-line { width:22px; height:2px; background:#000; border-radius:2px; display:block; margin:0 auto; transition:transform .3s ease, opacity .3s ease, background .3s ease; transform-origin:center; box-shadow:0 0 0 1px rgba(255,255,255,0.25) inset, 0 1px 2px rgba(0,0,0,0.55); }
-.bubble-menu .menu-line+.menu-line { margin-top:6px; }
-/* Open state keeps orange tone but deepens slightly */
-/* Open state uses same inline color; only transform changes */
-.bubble-menu .menu-btn.open .menu-line:first-child { transform:translateY(4px) rotate(45deg); }
-.bubble-menu .menu-btn.open .menu-line:last-child { transform:translateY(-4px) rotate(-45deg); }
+.bubble-menu .menu-line { width:22px; height:2px; background:#000; border-radius:2px; display:block; margin:0 auto; transition:transform .32s cubic-bezier(.65,.05,.36,1), opacity .3s ease, background .3s ease; transform-origin:center; box-shadow:0 0 0 1px rgba(255,255,255,0.25) inset, 0 1px 2px rgba(0,0,0,0.55); }
+/* Equal vertical spacing for 3 lines */
+.bubble-menu .menu-line + .menu-line { margin-top:5px; }
+/* Open state animation for 3-line hamburger -> X with fading middle */
+.bubble-menu .menu-btn.open .menu-line:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.bubble-menu .menu-btn.open .menu-line:nth-child(2) { opacity:0; transform:scaleX(.4); }
+.bubble-menu .menu-btn.open .menu-line:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
 @media (hover:hover){ .bubble-menu .menu-btn:hover .menu-line { filter:brightness(1.08); } }
 @media (min-width:768px){ .bubble-menu .bubble { --bubble-size:50px; } .bubble-menu .logo-bubble { --logo-bubble-height:60px; padding:0 18px; } .bubble-menu .logo-content { width:98px; } }
 @media (max-width:640px){
 	/* Make the logo a bit smaller and keep it visually more to the left edge */
-		.bubble-menu { left:0; transform:none; width:100%; top:1.25rem; padding:0; gap:0; 
+		.bubble-menu { left:0; transform:none; width:100%; /* Increased mobile vertical offset (was 1.25rem) to lower logo & hamburger */
+			/* Adjusted: was 3.6rem, nudged up slightly per feedback */
+			--nav-mobile-top: 3.15rem; top: var(--nav-mobile-top); padding:0; gap:0; 
 			/* Keep items near edges but add breathing room */
 			padding-left: max(20px, env(safe-area-inset-left));
 			padding-right: max(20px, env(safe-area-inset-right));
@@ -53,12 +56,15 @@
 	/* Override fixed-centered desktop rule on mobile (higher specificity) */
 	.bubble-menu.fixed,
 			.bubble-menu.fixed.hero-shift { left:0; transform:none; max-width:none; padding:0; 
+			/* Keep same lowered offset for fixed variant */
+			top: var(--nav-mobile-top, 3.6rem);
 				padding-left: max(20px, env(safe-area-inset-left));
 				padding-right: max(20px, env(safe-area-inset-right));
 	}
-	.bubble-menu .bubble { --bubble-size:38px; }
-	.bubble-menu .logo-bubble { --logo-bubble-height:44px; padding:0 10px; }
-	.bubble-menu .logo-content { width:72px; --logo-max-height:78%; --logo-max-width:78%; }
+	/* Enlarged mobile bubble sizes (were 38px / 44px) */
+	.bubble-menu .bubble { --bubble-size:42px; }
+	.bubble-menu .logo-bubble { --logo-bubble-height:50px; padding:0 12px; }
+	.bubble-menu .logo-content { width:80px; --logo-max-height:82%; --logo-max-width:82%; }
 }
 .bubble-menu-items { position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; pointer-events:none; z-index:98; padding-top:200px; /* moved lower (was 140px) */
 	/* Uniform base film so no corner is lighter */
@@ -160,13 +166,43 @@ body.menu-open { overflow:hidden; }
 /* Keep slightly smaller text on narrow screens but preserve 3-column layout */
 @media (max-width:899px){
 	/* Lower the menu, make it larger, and center content vertically */
-	.bubble-menu-items { padding-top:60px; min-height:100svh; }
-	.bubble-menu-items .pill-list { row-gap:12px; flex:1 1 auto; align-content:center; transform:translateX(-16px); }
-	/* Use 2 columns for bigger bubbles */
-	.bubble-menu-items .pill-list .pill-col { flex:0 0 50%; max-width:50%; padding:0 8px; }
-	.bubble-menu-items .pill-link { font-size:clamp(1rem,4.2vw,1.6rem); padding:clamp(.7rem,2vw,1.1rem) 0; min-height:72px; }
+	.bubble-menu-items { padding-top:72px; min-height:100svh; }
+	/* Vertical single column with centered constrained width */
+	.bubble-menu-items .pill-list { row-gap:10px; flex:1 1 auto; align-content:flex-start; transform:none; flex-wrap:nowrap; flex-direction:column; width:100%; padding:0 18px; overflow:visible; 
+		/* Nudge entire pill column 18px left (updated) to correct right bias */
+		margin-left:-18px; }
+	.bubble-menu-items .pill-list .pill-col { flex:0 0 auto; max-width:100%; width:100%; padding:0 4px; display:flex; }
+	.bubble-menu-items .pill-link { font-size:clamp(1rem,4.2vw,1.5rem); padding:clamp(.7rem,2.2vw,1rem) 0; min-height:68px; width:clamp(220px,84vw,520px); margin:0 auto; }
+	/* Set mobile menu pill text to fixed 2rem per request */
+	.bubble-menu-items .pill-link { font-size:2rem; }
+
+	/* Slight vertical spacing between stacked pill bubbles */
+	.bubble-menu-items .pill-list .pill-col + .pill-col { margin-top:6px; }
+	/* Remove rotation/tilt on mobile only */
+	.bubble-menu-items .pill-link { transform:none; }
+	.bubble-menu-items .pill-link:hover { transform:none; }
+	.bubble-menu-items .pill-link:active { transform:scale(.94); }
+	/* Slightly stronger shadow to separate stacked items */
+	.bubble-menu-items .pill-link { box-shadow:
+		0 4px 14px -6px rgba(0,0,0,0.38),
+		0 10px 26px -14px rgba(0,0,0,0.45),
+		0 0 0 1px rgba(255,255,255,0.26) inset,
+		0 -0.06em 0.12em hsla(0,0%,100%,0.9) inset,
+		0 -0.14em 0.38em var(--bubble-accent) inset,
+		0 0.05em 0.05em var(--bubble-accent) inset,
+		0.05em 0 0.1em hsla(0,0%,100%,0.82) inset,
+		-0.05em 0 0.1em hsla(0,0%,100%,0.82) inset,
+		0 0.1em 0.42em hsl(210 90% 60% / 0.5) inset; }
+	/* Tap feedback visual (no rotation) */
+	.bubble-menu-items .pill-link:active { filter:brightness(.95); }
 	/* Push social section to bottom on mobile */
 	.bubble-menu-items .menu-footer { margin:auto auto 0; padding:0 24px 80px; }
+
+	/* Extra-small height devices: shrink pills slightly */
+	@media (max-height:640px){
+		.bubble-menu-items .pill-link { min-height:58px; font-size:clamp(.9rem,4.2vw,1.2rem); }
+		.bubble-menu-items .menu-footer { padding:0 24px 64px; }
+	}
 }
 
 /* Neutralize previous active shrink so it doesn't fight hover squish (keep slight press) */
@@ -189,15 +225,18 @@ body.menu-open { overflow:hidden; }
 .bubble-menu-items .menu-footer { width:100%; max-width:1600px; margin:110px auto 0; padding:0 24px 90px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; gap:22px; pointer-events:auto; }
 .bubble-menu-items .follow-label { font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#444; opacity:.85; }
 .bubble-menu-items .social-links { list-style:none; margin:0; padding:0; display:flex; gap:18px; }
-.bubble-menu-items .social-links a { --orb-size:52px; width:var(--orb-size); height:var(--orb-size); border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; text-decoration:none; color:#111; isolation:isolate; backdrop-filter:blur(14px) saturate(165%); -webkit-backdrop-filter:blur(14px) saturate(165%); background:
-	linear-gradient(145deg, rgba(255,255,255,0.34), rgba(255,255,255,0.10)),
-	radial-gradient(circle at 38% 28%, hsl(18 98% 56% / 0.18), rgba(255,173,120,0) 62%);
+.bubble-menu-items .social-links a { --orb-size:52px; width:var(--orb-size); height:var(--orb-size); border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; text-decoration:none; color:#111; isolation:isolate; backdrop-filter:blur(14px) saturate(165%); -webkit-backdrop-filter:blur(14px) saturate(165%);
+ /* Slightly darker variant: reduced white highlight opacity + subtle inner shade */
+ background:
+	linear-gradient(145deg, rgba(255,255,255,0.26), rgba(255,255,255,0.05)),
+	radial-gradient(circle at 38% 28%, hsl(18 98% 56% / 0.20), rgba(255,173,120,0) 60%);
  box-shadow:
-	0 10px 24px -12px rgba(0,0,0,0.45),
-	0 6px 18px -10px rgba(0,0,0,0.35),
-	0 0 0 1px rgba(255,255,255,0.28) inset,
-	0 -0.06em 0.12em rgba(255,255,255,0.85) inset,
-	0 0 0 3px hsl(18 98% 56% / 0.14) inset;
+	0 10px 24px -12px rgba(0,0,0,0.48),
+	0 6px 18px -10px rgba(0,0,0,0.38),
+	0 0 0 1px rgba(255,255,255,0.26) inset,
+	0 -0.06em 0.12em rgba(255,255,255,0.78) inset,
+	0 0 0 3px hsl(18 98% 56% / 0.17) inset,
+	0 0 0 2px rgba(0,0,0,0.04) inset; /* gentle dark ring */
  overflow:hidden; transition:transform .5s cubic-bezier(.22,.9,.3,1), box-shadow .6s ease, filter .6s ease; }
 .bubble-menu-items .social-links a::before { content:""; position:absolute; inset:0; border-radius:50%; background:
 	radial-gradient(circle at 35% 28%, rgba(255,255,255,0.6), rgba(255,255,255,0) 66%),

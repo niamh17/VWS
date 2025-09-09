@@ -50,7 +50,8 @@
   max-width: 1120px; /* align to template container */
   margin: 0 auto;
   padding: 0 56px; /* internal horizontal to approximate spacing */
-  min-height: 816px; /* template height */
+  /* Reduced min-height (was 816px) to trim excessive empty space beneath content on tall viewports */
+  min-height: 780px; /* desktop baseline height */
   align-items: center;
   border-left:1px dotted var(--color-border);
   border-right:1px dotted var(--color-border);
@@ -59,7 +60,8 @@
 }
 
 @media (max-width: 1080px) {
-  .heroRoot { flex-direction: column; padding: 72px 24px 96px; min-height:auto; border-left:none; border-right:none; }
+  /* Reduced bottom padding (was 96px) to remove extra blank space below hero on tablets */
+  .heroRoot { flex-direction: column; padding: 72px 24px 56px; min-height:auto; border-left:none; border-right:none; }
   .scheduleColumn {display:none;}
 }
 @media (max-width: 640px) {
@@ -68,11 +70,24 @@
   /* Extra top gap so text isn't too close to the logo/menu on mobile; trim bottom to avoid huge empty space */
   /* Center the flex-based heading rows on mobile */
   .heroHeading { justify-content: center; margin-left:auto; margin-right:auto; }
-  .heroRoot { padding: 120px 0 48px; justify-content:center; min-height: min(720px, calc(100vh - 24px)); }
+  /* Reduce excessive top gap on iOS and account for safe area inset */
+  /* Further increased top padding (was 118px) to significantly lower hero content on mobile. */
+  .heroRoot { --hero-mobile-top-offset: 160px; padding: calc(var(--hero-mobile-top-offset) + env(safe-area-inset-top)) 0 48px; justify-content:center; min-height: min(720px, calc(100vh - 24px)); }
   /* Center the content column and limit width for tidy mobile layout */
   .leftCol { width:100%; max-width: 520px; margin: 0 auto; }
   .headingBlock { margin-top: 12px; text-align:center; }
   .subtitle { text-align:center; margin-left:auto; margin-right:auto; }
+}
+
+/* Ultra-small devices (e.g., iPhone SE) - tighten further so heading is visible without scrolling */
+@media (max-width: 380px) {
+  /* Slightly reduce from 160px for very small heights while still pushing content down. */
+  .heroRoot { --hero-mobile-top-offset: 140px; padding: calc(var(--hero-mobile-top-offset) + env(safe-area-inset-top)) 0 40px; }
+}
+
+/* Provide a background behind the notch so there is no perceived "gap" */
+@supports (padding: max(0px)) {
+  .heroOuter { background: var(--color-bg); }
 }
 
 .leftCol {
@@ -122,7 +137,8 @@
 
 /* Tighter scaling on smaller screens */
 @media (max-width: 640px) {
-  .heroHeading { font-size: clamp(2.2rem,7.8vw,3rem); line-height:.92; column-gap:8px; row-gap:2px; font-weight:700; }
+  /* Increased mobile heading size (was clamp(2.2rem,7.8vw,3rem)) for better prominence */
+  .heroHeading { font-size: clamp(2.4rem,8.6vw,3.4rem); line-height:.92; column-gap:8px; row-gap:2px; font-weight:700; }
   /* Allow natural wrapping on small screens so long phrases don't overflow */
   .lineOne, .lineTwo { white-space:normal; }
   /* Scale down the floating trend icon so it fits the line height */

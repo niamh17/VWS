@@ -2,6 +2,7 @@
 // HeroSection client component with custom cursor & schedule cards.
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import styles from './HeroSection.module.css';
 import Image from 'next/image';
 
@@ -16,22 +17,30 @@ const schedule: Call[] = [
   { day: 'THU', date: '28 JUL', rotate: 'rotateN2', entries: [ { title: 'New client call: Mirielle', duration: '1hr', time: '9:30 AM – 10:30 AM', img: 'https://framerusercontent.com/images/PKiASOOG1EGQq1I5x1KjAasln4.png' } ] },
 ];
 
+// Reuse the same partner imagery set used in Mission/Stats section for brand consistency
 const partners = [
-  { src: 'https://randomuser.me/api/portraits/women/68.jpg', name: 'Ava' },
-  { src: 'https://randomuser.me/api/portraits/men/12.jpg', name: 'Liam' },
-  { src: 'https://randomuser.me/api/portraits/men/33.jpg', name: 'Noah' },
-  { src: 'https://randomuser.me/api/portraits/women/44.jpg', name: 'Mia' },
+  'https://framerusercontent.com/images/vhrHZGDV6GHME64j4wHVwOSfb8.png',
+  'https://framerusercontent.com/images/hgIwkBgy2OmU0dw2HlRbV5QH4.png',
+  'https://framerusercontent.com/images/w3uLbU7Y52vz44rYeU2HamRqrc.png',
+  'https://framerusercontent.com/images/8uKgxQ7sa2jpaYkxdGLD437X83Y.png'
 ];
 
 const Star = () => (
   <svg className={styles.starIcon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.1 3.513c.35-.921 1.62-.921 1.97 0l1.77 4.66 4.97.297c.99.06 1.39 1.313.64 1.948l-3.8 3.246 1.17 4.83c.23.95-.81 1.688-1.64 1.17L12.1 17.89l-4.1 2.775c-.83.518-1.87-.22-1.64-1.17l1.17-4.83-3.8-3.246c-.75-.635-.35-1.889.64-1.948l4.97-.297 1.77-4.66Z"/></svg>
 );
 
+const Aurora = dynamic(() => import('./Aurora'), { ssr: false });
+
 const HeroSection: React.FC = () => {
   // Availability tag removed per request
 
   return (
     <div className={`${styles.heroOuter} ${styles.heroShiftLeft}`}>
+      {/* Embedded aurora background (moved from page wrapper) */}
+      <div className="heroAurora" aria-hidden="true">
+  {/* Reduced amplitude to soften peak displacement of aurora (was 1.15) */}
+  <Aurora amplitude={0.7} blend={0.7} fps={40} maxDpr={1.1} />
+      </div>
   <section className={styles.heroRoot} aria-label="Hero section">
   {/* Global BubbleMenu moved to RootLayout to avoid transform clipping & allow full-screen overlay */}
       <div className={styles.leftCol}>
@@ -82,8 +91,16 @@ const HeroSection: React.FC = () => {
             <div>
               <div className={styles.metaLabel}>Trusted partners</div>
               <div className={styles.partners}>
-                {partners.map(p => (
-                  <Image key={p.name} src={p.src} alt={`${p.name} logo`} width={40} height={40} className={styles.partnerAvatar} />
+                {partners.map(src => (
+                  <Image
+                    key={src}
+                    src={src+"?scale-down-to=128"}
+                    alt="Partner logo"
+                    width={40}
+                    height={40}
+                    className={styles.partnerAvatar}
+                    loading="lazy"
+                  />
                 ))}
               </div>
             </div>
