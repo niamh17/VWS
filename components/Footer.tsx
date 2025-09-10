@@ -24,6 +24,8 @@ export default function Footer() {
             <h3 className={styles.groupTitle}>Explore</h3>
             <ul className={styles.linkList}>
               <li><a href="#services" className={styles.link}>Services</a></li>
+              <li><a href="/services" className={styles.link}>All Services</a></li>
+              <li><a href="/portfolio" className={styles.link}>Portfolio</a></li>
               <li><a href="#projects" className={styles.link}>Projects</a></li>
               <li><a href="#how-it-works" className={styles.link}>How it works</a></li>
               <li><a href="#pricing" className={styles.link}>Pricing</a></li>
@@ -37,6 +39,7 @@ export default function Footer() {
             <ul className={styles.linkList}>
               <li><Link href="/about" className={styles.link}>About</Link></li>
               <li><a href="#projects" className={styles.link}>Case studies</a></li>
+              <li><a href="/sitemap-html" className={styles.link}>HTML Sitemap</a></li>
               <li><a href="#pricing" className={styles.link}>Estimator</a></li>
               <li><a href="#book" className={styles.link}>Contact</a></li>
             </ul>

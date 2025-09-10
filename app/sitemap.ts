@@ -21,12 +21,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const nowIso = new Date().toISOString();
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    '', '/about', '/contact', '/blog', '/websites', '/funnels'
+    '', '/about', '/contact', '/blog', '/websites', '/funnels',
+    '/services',
+    '/services/web-design',
+    '/services/professional-web-design-agency',
+    '/services/custom-web-design',
+    '/services/responsive-web-design',
+    '/services/nextjs-development'
   ].map(p => ({
     url: absolute(p),
     lastModified: nowIso,
     changeFrequency: p === '' ? 'weekly' : 'monthly',
-    priority: p === '' ? 1 : 0.6
+    priority: p === '' ? 1 : (p.startsWith('/services') ? 0.8 : 0.6)
   }));
 
   const postRoutes: MetadataRoute.Sitemap = blogPosts.map(p => ({

@@ -1,10 +1,10 @@
 // Central SEO configuration (no visible copy changed here)
 export const TARGET_KEYWORDS: string[] = [
-  'conversion-focused website design',
-  'high-converting sales funnel development',
-  'custom website and funnel agency',
-  'website speed optimization services',
-  'landing page conversion optimization'
+  'high quality website design',
+  'professional web design agency',
+  'custom website design services',
+  'responsive website design',
+  'Next.js web development agency'
 ];
 
 export const SITE_NAME = 'Vibe Web Studio';

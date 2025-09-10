@@ -4,28 +4,38 @@ import BubbleMenu from '../components/BubbleMenu';
 import InitialVisit from '../components/InitialVisit';
 import WelcomeOverlayGate from '../components/ui/WelcomeOverlayGate';
 import { TARGET_KEYWORDS, SITE_URL, defaultOpenGraph, organizationJsonLd } from '../lib/seo';
+import Script from 'next/script';
 
 export const metadata = {
-  title: 'Vibe Web Studio',
-  description: 'Vibe Web Studio – bespoke websites, funnels & digital growth services.',
+  metadataBase: new URL('https://vibewebstudio.com'),
+  title: {
+    default: 'Vibe Web Studio — High-quality website design & development',
+    template: '%s | Vibe Web Studio'
+  },
+  description:
+    'High-quality website design and Next.js development. Custom, responsive, fast sites that convert.',
   keywords: TARGET_KEYWORDS,
   alternates: { canonical: SITE_URL },
-  openGraph: defaultOpenGraph,
+  openGraph: {
+    ...defaultOpenGraph,
+    title: 'Vibe Web Studio — High-quality website design & development'
+  },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vibe Web Studio',
-  description: 'Websites, funnels & digital growth.',
-  site: '@vibewebstudio',
-  images: [{ url: SITE_URL + '/sharing.png', alt: 'Vibe Web Studio – Websites & Funnels' }]
+    title: 'Vibe Web Studio'
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || 'REPLACE_WITH_SEARCH_CONSOLE_TOKEN'
   },
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon.png', sizes: '16x16', type: 'image/png' }
+      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon-48x48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/favicon-192x192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/favicon-512x512.png', type: 'image/png', sizes: '512x512' }
     ],
-    shortcut: ['/favicon.svg'],
-    apple: [{ url: '/logo.png', sizes: '180x180', type: 'image/png' }],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }]
   },
   manifest: '/site.webmanifest'
 };
@@ -47,9 +57,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* Preload brand asset */}
         <link rel="preload" as="image" href="/logo.png" />
         <script defer src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
-        <link rel="mask-icon" href="/favicon.svg" color="#ff4726" />
+  {/* No SVG/favicon.ico references to satisfy PNG-only SERP favicon objective */}
         {/* Basic structured data */}
-        <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: organizationJsonLd }} />
+  <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: organizationJsonLd }} />
         {/* Robots fallback meta (complements /robots route) */}
         <meta name="robots" content="index,follow" />
         <meta name="googlebot" content="index,follow" />
@@ -70,7 +80,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           toggleColor="#000000"
           items={[
             { label: 'Home', href: '/', ariaLabel: 'Home', rotation: -8, hoverStyles: { bgColor: '#ff663a', textColor: '#000000' } },
-            { label: 'Websites', href: '/websites', ariaLabel: 'Websites', rotation: 6, hoverStyles: { bgColor: '#ff5a2d', textColor: '#000000' } },
+            { label: 'Services', href: '/services', ariaLabel: 'Services', rotation: 4, hoverStyles: { bgColor: '#ff602f', textColor: '#000000' } },
+            { label: 'Portfolio', href: '/portfolio', ariaLabel: 'Portfolio', rotation: 6, hoverStyles: { bgColor: '#ff5a2d', textColor: '#000000' } },
             { label: 'Contact', href: '/contact', ariaLabel: 'Contact', rotation: 6, hoverStyles: { bgColor: '#ff4f22', textColor: '#000000' } },
             { label: 'Funnels', href: '/funnels', ariaLabel: 'Funnels', rotation: 8, hoverStyles: { bgColor: '#ff4726', textColor: '#000000' } },
             { label: 'About', href: '/about', ariaLabel: 'About', rotation: -6, hoverStyles: { bgColor: '#f53e1d', textColor: '#000000' } },
@@ -81,6 +92,23 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           staggerDelay={0.12}
         />
         {children}
+        {/* Site-wide structured data */}
+        <Script id="ld-website" type="application/ld+json" strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            url: 'https://vibewebstudio.com',
+            name: 'Vibe Web Studio'
+          }) }} />
+        <Script id="ld-org" type="application/ld+json" strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Vibe Web Studio',
+            url: 'https://vibewebstudio.com',
+            logo: 'https://vibewebstudio.com/logo.png',
+            sameAs: []
+          }) }} />
       </body>
     </html>
   );
