@@ -80,7 +80,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           toggleColor="#000000"
           items={[
             { label: 'Home', href: '/', ariaLabel: 'Home', rotation: -8, hoverStyles: { bgColor: '#ff663a', textColor: '#000000' } },
-            { label: 'Services', href: '/services', ariaLabel: 'Services', rotation: 4, hoverStyles: { bgColor: '#ff602f', textColor: '#000000' } },
             { label: 'Portfolio', href: '/portfolio', ariaLabel: 'Portfolio', rotation: 6, hoverStyles: { bgColor: '#ff5a2d', textColor: '#000000' } },
             { label: 'Contact', href: '/contact', ariaLabel: 'Contact', rotation: 6, hoverStyles: { bgColor: '#ff4f22', textColor: '#000000' } },
             { label: 'Funnels', href: '/funnels', ariaLabel: 'Funnels', rotation: 8, hoverStyles: { bgColor: '#ff4726', textColor: '#000000' } },
