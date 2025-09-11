@@ -116,7 +116,7 @@
 
 .headingBlock { margin-top: 40px; }
 .headingRow { display:block; }
-.heroHeading { margin:0; font-size: clamp(2.25rem,4.4vw,4.1rem); line-height:.92; font-weight:600; letter-spacing:-0.018em; display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end; }
+.heroHeading { margin:0; font-size: clamp(2.25rem,4.4vw,4.1rem); line-height:.92; font-weight:800; letter-spacing:-0.018em; display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end; }
 .heroHeading span { display:inline-flex; }
 /* Prevent first line words splitting into unintended extra line */
 .lineOne { white-space:nowrap; gap:14px; }
@@ -135,16 +135,35 @@
 @keyframes trendFloat { 0% { transform:rotate(6deg) translateY(0); } 50% { transform:rotate(10deg) translateY(-7px); } 100% { transform:rotate(6deg) translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .trendIconBox { animation:none; } }
 
+/* Hide the heading icon across common mobile widths */
+@media (max-width: 768px) {
+  .trendIconInline { display: none !important; }
+}
+
 /* Tighter scaling on smaller screens */
 @media (max-width: 640px) {
   /* Increased mobile heading size (was clamp(2.2rem,7.8vw,3rem)) for better prominence */
-  .heroHeading { font-size: clamp(2.4rem,8.6vw,3.4rem); line-height:.92; column-gap:8px; row-gap:2px; font-weight:700; }
+  .heroHeading { font-size: clamp(2.8rem,10vw,3.8rem); line-height:.92; column-gap:8px; row-gap:2px; font-weight:800; transform: translateX(4px); }
+  /* Subtle 3D depth for heading on mobile */
+  .heroHeading { text-shadow:
+      0 1px 0 rgba(0,0,0,0.10),
+      0 2px 4px rgba(0,0,0,0.12),
+      0 8px 18px rgba(0,0,0,0.10);
+  }
   /* Allow natural wrapping on small screens so long phrases don't overflow */
   .lineOne, .lineTwo { white-space:normal; }
-  /* Scale down the floating trend icon so it fits the line height */
-  .trendIconInline { width:52px; height:52px; flex-basis:52px; }
+  /* Hide the floating trend icon on mobile for cleaner layout */
+  .trendIconInline { display:none; }
   .trendSvg { width:30px; height:30px; }
   .subtitle { font-size:15px; max-width: 100%; }
+  /* Shift the button group slightly to the right on mobile */
+  .buttons { transform: translateX(3px); }
+
+  /* Add a subtle radial glow behind the heading for depth */
+  .headingBlock { position: relative; }
+  .headingBlock::before { content:""; position:absolute; left:50%; transform:translateX(-50%); top:-10px; width:min(560px, 92%); height:140px; border-radius:60% / 50%; background: radial-gradient(ellipse at center, rgba(255,255,255,0.10), rgba(255,255,255,0.04) 55%, transparent 70%); filter: blur(18px); opacity:.9; pointer-events:none; z-index:0; }
+  /* Ensure heading sits above the glow */
+  .headingBlock > * { position:relative; z-index:1; }
 }
 
 /* Aurora background layer */
@@ -178,8 +197,19 @@
 /* Buttons wrap on narrow phones and stack at very small widths */
 @media (max-width: 560px) {
   /* Center the button group and stack; constrain width to avoid overflow */
-  .buttons { width:100%; flex-wrap: nowrap; flex-direction: column; row-gap:12px; justify-content:center; align-items:center; }
+  .buttons { width:100%; flex-wrap: nowrap; flex-direction: column; row-gap:12px; justify-content:center; align-items:center; transform: translateX(3px); }
   .primaryBtn, .secondaryBtn { width:min(360px, 82%); justify-content:center; box-sizing:border-box; }
+}
+
+/* Mobile-only vignette and button elevation for added depth */
+@media (max-width: 640px) {
+  .heroOuter { position:relative; }
+  .heroOuter::after { content:""; position:absolute; inset:0; background: radial-gradient(120% 85% at 50% 0%, transparent 45%, rgba(0,0,0,0.08) 100%); pointer-events:none; z-index:0; }
+  /* Elevate buttons with subtle drop-shadow */
+  .primaryBtn, .secondaryBtn { filter: drop-shadow(0 10px 18px rgba(0,0,0,0.18)); }
+  /* Create a soft platform under the buttons */
+  .buttons { position:relative; }
+  .buttons::before { content:""; position:absolute; left:50%; transform:translateX(-50%); bottom:-8px; width:min(520px, 86%); height:28px; border-radius:999px; background: radial-gradient(ellipse at center, rgba(0,0,0,0.12), transparent 65%); filter: blur(12px); opacity:.9; pointer-events:none; }
 }
 @media (max-width: 420px) {
   .primaryBtn, .secondaryBtn { width:80%; }

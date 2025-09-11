@@ -1,7 +1,7 @@
 "use client";
 // HeroSection client component with custom cursor & schedule cards.
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import styles from './HeroSection.module.css';
 import Image from 'next/image';
@@ -34,12 +34,30 @@ const Aurora = dynamic(() => import('./Aurora'), { ssr: false });
 const HeroSection: React.FC = () => {
   // Availability tag removed per request
 
+  // Slightly reduce aurora amplitude on mobile only
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(max-width: 640px)');
+    const onChange = (e: MediaQueryListEvent | MediaQueryList) => setIsMobile('matches' in e ? e.matches : (e as MediaQueryList).matches);
+    // Initialize
+    setIsMobile(mq.matches);
+    // Subscribe
+    if (typeof mq.addEventListener === 'function') {
+      mq.addEventListener('change', onChange as (e: MediaQueryListEvent) => void);
+      return () => mq.removeEventListener('change', onChange as (e: MediaQueryListEvent) => void);
+    } else if (typeof (mq as any).addListener === 'function') {
+      (mq as any).addListener(onChange);
+      return () => (mq as any).removeListener(onChange);
+    }
+  }, []);
+
   return (
     <div className={`${styles.heroOuter} ${styles.heroShiftLeft}`}>
       {/* Embedded aurora background (moved from page wrapper) */}
       <div className="heroAurora" aria-hidden="true">
   {/* Reduced amplitude to soften peak displacement of aurora (was 1.15) */}
-  <Aurora amplitude={0.7} blend={0.7} fps={40} maxDpr={1.1} />
+  <Aurora amplitude={isMobile ? 0.6 : 0.7} blend={0.7} fps={40} maxDpr={1.1} />
       </div>
   <section className={styles.heroRoot} aria-label="Hero section">
   {/* Global BubbleMenu moved to RootLayout to avoid transform clipping & allow full-screen overlay */}
